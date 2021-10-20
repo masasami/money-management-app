@@ -1,6 +1,5 @@
 import { ReactNode } from 'react'
 import Head from 'next/head'
-import styles from './Layout.module.scss'
 
 type Props = {
   children: ReactNode
@@ -8,7 +7,7 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className={styles.container}>
+    <div className="w-screen h-screen">
       <Head>
         <title>Money Management</title>
         <meta name="description" content="Money Management" />
