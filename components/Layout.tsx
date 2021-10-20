@@ -1,19 +1,26 @@
 import { ReactNode } from 'react'
 import Head from 'next/head'
 
+import Header from 'components/Header'
+import Nav from './Nav'
+
 type Props = {
   children: ReactNode
 }
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="w-screen h-screen">
+    <div className="w-screen h-screen flex flex-col">
       <Head>
         <title>Money Management</title>
         <meta name="description" content="Money Management" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      {children}
+      <Header />
+      <main className="flex-1 flex">
+        <Nav />
+        <div className="flex-1">{children}</div>
+      </main>
     </div>
   )
 }
