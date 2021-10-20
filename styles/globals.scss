@@ -1,0 +1,63 @@
+// カレンダーのスタイル
+.rbc-btn-group {
+  margin: 0 15px;
+  button {
+    font-size: 0;
+    cursor: pointer;
+  }
+}
+.rbc-btn-group:nth-child(1) {
+  button:nth-child(1)::before {
+    font-size: 14px;
+    content: '今日';
+  }
+  button:nth-child(2)::before {
+    font-size: 18px;
+    content: '←';
+  }
+  button:nth-child(3)::before {
+    font-size: 18px;
+    content: '→';
+  }
+}
+
+.rbc-toolbar-label {
+  height: 45px;
+  line-height: 45px;
+}
+
+.rbc-btn-group:nth-child(3) {
+  display: none;
+}
+
+.rbc-header {
+  font-size: 0 !important;
+  &:nth-child(1)::before {
+    font-size: 18px;
+    content: '日';
+  }
+  &:nth-child(2)::before {
+    font-size: 18px;
+    content: '月';
+  }
+  &:nth-child(3)::before {
+    font-size: 18px;
+    content: '火';
+  }
+  &:nth-child(4)::before {
+    font-size: 18px;
+    content: '水';
+  }
+  &:nth-child(5)::before {
+    font-size: 18px;
+    content: '木';
+  }
+  &:nth-child(6)::before {
+    font-size: 18px;
+    content: '金';
+  }
+  &:nth-child(7)::before {
+    font-size: 18px;
+    content: '土';
+  }
+}
