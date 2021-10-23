@@ -6,6 +6,7 @@ import type { NextPage } from 'next'
 import Layout from 'components/Layout'
 import Debit from 'components/Debit'
 import Credit from 'components/Credit'
+import DoughnutChart from 'components/DoughnutChart'
 
 const Top: NextPage = () => {
   const records = [
@@ -51,7 +52,9 @@ const Top: NextPage = () => {
           endAccessor="dt_end"
         />
 
-        <div className="max-w-min max-h-min"></div>
+        <div className="max-w-min max-h-min">
+          <DoughnutChart />
+        </div>
       </div>
     </Layout>
   )
