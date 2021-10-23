@@ -5,7 +5,7 @@ import { VscGraphLine } from 'react-icons/vsc'
 
 const Nav = () => {
   return (
-    <nav className="w-64 h-full text-gray-500 border-r border-gray-300">
+    <nav className="w-64 h-full text-gray-500 border-r border-gray-300 hidden md:block">
       <ul>
         <li className="pt-6 pb-3 pl-6 pr-12">
           <Link href="/top">
