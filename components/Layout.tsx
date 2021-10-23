@@ -17,7 +17,7 @@ const Layout = ({ children }: Props) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="flex-1 flex pt-16">
+      <main className="flex-1 flex mt-16 overflow-y-scroll">
         <Nav />
         <div className="flex-1">{children}</div>
       </main>
