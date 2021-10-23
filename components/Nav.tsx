@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { GoCalendar } from 'react-icons/go'
 import { AiOutlineTag } from 'react-icons/ai'
+import { VscGraphLine } from 'react-icons/vsc'
 
 const Nav = () => {
   return (
@@ -19,6 +20,14 @@ const Nav = () => {
             <a className="flex items-center cursor-pointer">
               <AiOutlineTag className="text-xl mr-4" />
               <span className="text-sm">タグ</span>
+            </a>
+          </Link>
+        </li>
+        <li className="py-3 pl-6 pr-12">
+          <Link href="/graph">
+            <a className="flex items-center cursor-pointer">
+              <VscGraphLine className="text-xl mr-4" />
+              <span className="text-sm">グラフ</span>
             </a>
           </Link>
         </li>
