@@ -9,13 +9,22 @@ import { Account } from 'interfaces/account'
 
 const Top: NextPage = () => {
   const [accounts, setAccounts] = useState<Account[]>([])
-
-  const balance = 200000
+  const [balance, setBalance] = useState(0)
 
   useEffect(() => {
     ;(async () => {
-      const accounts = await (await fetch('/data/accounts.json')).json()
+      const accounts: Account[] = await (
+        await fetch('/data/accounts.json')
+      ).json()
       setAccounts(accounts)
+
+      setBalance(
+        accounts.reduce((prev, account) => {
+          const debit = account.debit ? account.debit : 0
+          const credit = account.credit ? account.credit : 0
+          return prev + debit - credit
+        }, 0)
+      )
     })()
   }, [])
 
@@ -51,15 +60,13 @@ const Top: NextPage = () => {
           {/* 収支 */}
           <div className="w-full flex items-center">
             <span className="text-base md:text-5xl">収支合計</span>
-            <div className="text-right border rounded border-gray-500 ml-2 text-base md:text-5xl p-2 flex-1">
-              ¥
-              {accounts
-                .reduce((prev, account) => {
-                  const debit = account.debit ? account.debit : 0
-                  const credit = account.credit ? account.credit : 0
-                  return prev + debit - credit
-                }, 0)
-                .toLocaleString()}
+            <div
+              className={`text-right border rounded border-gray-500 ml-2 text-base md:text-5xl p-2 flex-1 
+              ${balance > 0 && 'text-blue-500'} 
+              ${balance < 0 && 'text-red-500'}
+              `}
+            >
+              ¥{balance.toLocaleString()}
             </div>
           </div>
         </div>
