@@ -33,17 +33,11 @@ const ModalDebitCredit = (props: Props) => {
           inventore, sapiente voluptatem id consectetur ex quas veniam.
         </main>
         <footer className="px-5 pb-5 flex items-center justify-center">
-          <button
-            className="text-white bg-gray-500 p-2 rounded text-base flex items-center"
-            onClick={props.onHide}
-          >
+          <button className="btn-sub" onClick={props.onHide}>
             <BsArrowReturnLeft />
             <span className="ml-1">戻る</span>
           </button>
-          <button
-            className="text-white bg-blue-500 p-2 rounded text-base flex items-center ml-3"
-            onClick={() => onClickOk()}
-          >
+          <button className="btn-main ml-3" onClick={() => onClickOk()}>
             <AiOutlineCheck />
             <span className="ml-1">OK</span>
           </button>

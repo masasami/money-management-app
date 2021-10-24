@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* モーダル */
 .modal-grayout {
   @apply fixed;
   @apply w-screen;
@@ -16,7 +17,6 @@
   @apply z-50;
   @apply text-2xl;
 }
-
 .modal-screen {
   @apply w-[90%];
   @apply max-w-[500px];
@@ -26,4 +26,26 @@
   @apply rounded;
   @apply flex;
   @apply flex-col;
+}
+
+/* メインボタン */
+.btn-main {
+  @apply text-white;
+  @apply bg-blue-500;
+  @apply p-2;
+  @apply rounded;
+  @apply text-base;
+  @apply flex;
+  @apply items-center;
+}
+
+/* サブボタン */
+.btn-sub {
+  @apply text-white;
+  @apply bg-gray-500;
+  @apply p-2;
+  @apply rounded;
+  @apply text-base;
+  @apply flex;
+  @apply items-center;
 }
