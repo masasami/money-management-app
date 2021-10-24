@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import Layout from 'components/Layout'
+import Layout from 'layouts/Layout'
 import { AiOutlineTag } from 'react-icons/ai'
 
 const TagList: NextPage = () => {

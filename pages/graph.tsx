@@ -1,4 +1,4 @@
-import Layout from 'components/Layout'
+import Layout from 'layouts/Layout'
 import type { NextPage } from 'next'
 
 const Graph: NextPage = () => {

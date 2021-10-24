@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { RiCheckboxBlankFill } from 'react-icons/ri'
 import type { NextPage } from 'next'
 
-import Layout from 'components/Layout'
+import Layout from 'layouts/Layout'
 import BigCalendar from 'components/BigCalendar'
 import DoughnutChart from 'components/DoughnutChart'
 import { Account } from 'interfaces/account'
