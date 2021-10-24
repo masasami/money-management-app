@@ -19,7 +19,7 @@ const Layout = ({ children }: Props) => {
       <Header />
       <main className="flex-1 flex mt-16 overflow-y-scroll">
         <Nav />
-        <div className="flex-1">{children}</div>
+        <div className="w-full md:flex-1">{children}</div>
       </main>
     </div>
   )

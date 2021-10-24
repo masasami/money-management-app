@@ -12,10 +12,14 @@ const DoughnutChart = () => {
           },
         ],
       }}
-      width={200}
-      height={200}
+      width={150}
+      height={150}
       options={{
         maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { enabled: false },
+        },
       }}
     />
   )
