@@ -42,12 +42,15 @@ const Top: NextPage = () => {
   return (
     <Layout>
       <div className="w-full h-full flex flex-col p-2">
+        {/* カレンダー */}
         <BigCalendar records={records} />
         <div className="w-full pt-2 flex items-center flex-wrap mb-2">
+          {/* ドーナツチャート */}
           <div>
             <DoughnutChart />
           </div>
 
+          {/* タグ一覧 */}
           <ul className="h-[150px] p-3 overflow-y-scroll flex-1 scrollbar-y">
             {[
               '食費',
@@ -65,6 +68,7 @@ const Top: NextPage = () => {
             ))}
           </ul>
 
+          {/* 収支 */}
           <div className="w-full">
             <div className="text-right border rounded border-gray-500 ml-auto text-5xl p-2 w-full scrollbar-x">
               {balance === null ? null : `￥${balance.toLocaleString()}`}
