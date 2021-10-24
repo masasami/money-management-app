@@ -1,3 +1,29 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.modal-grayout {
+  @apply fixed;
+  @apply w-screen;
+  @apply h-screen;
+  @apply flex;
+  @apply items-center;
+  @apply justify-center;
+  @apply top-0;
+  @apply left-0;
+  @apply bg-black;
+  @apply bg-opacity-50;
+  @apply z-50;
+  @apply text-2xl;
+}
+
+.modal-screen {
+  @apply w-[90%];
+  @apply max-w-[500px];
+  @apply h-[80%];
+  @apply max-h-[800px];
+  @apply bg-white;
+  @apply rounded;
+  @apply flex;
+  @apply flex-col;
+}

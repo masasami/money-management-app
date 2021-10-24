@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react'
-import Modal from 'components/Modal'
+import ModalDebitCredit from 'components/ModalDebitCredit'
 import { Account } from 'interfaces/account'
 
 type Props = {
@@ -160,7 +160,7 @@ const BigCalendar = (props: Props) => {
   return (
     <div className="w-full h-full">
       {renderCalendar}
-      {isShow && <Modal onHide={() => hideModal()} />}
+      {isShow && <ModalDebitCredit onHide={() => hideModal()} />}
     </div>
   )
 }

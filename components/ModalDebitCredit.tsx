@@ -7,13 +7,13 @@ type Props = {
   onHide: () => void
 }
 
-const Modal = (props: Props) => {
+const ModalDebitCredit = (props: Props) => {
   const onClickOk = useCallback(() => {
     props.onHide()
   }, [])
   return (
-    <div className="fixed w-screen h-screen flex items-center justify-center top-0 left-0 bg-black bg-opacity-50 z-50 text-2xl">
-      <div className="w-[90%] max-w-[500px] h-[80%] max-h-[800px] bg-white rounded flex flex-col">
+    <div className="modal-grayout">
+      <div className="modal-screen">
         <header className="w-full h-14 text-white bg-blue-500 flex items-center justify-center p-2 rounded-t relative">
           <h2 className="absolute mx-auto">ヘッダー</h2>
           <button
@@ -53,4 +53,4 @@ const Modal = (props: Props) => {
   )
 }
 
-export default Modal
+export default ModalDebitCredit
