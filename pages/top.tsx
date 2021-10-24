@@ -1,49 +1,29 @@
+import { useEffect, useState } from 'react'
 import { RiCheckboxBlankFill } from 'react-icons/ri'
 import type { NextPage } from 'next'
 
 import Layout from 'components/Layout'
 import BigCalendar from 'components/BigCalendar'
 import DoughnutChart from 'components/DoughnutChart'
+import { Account } from 'interfaces/account'
 
 const Top: NextPage = () => {
-  const records = [
-    {
-      id: 1,
-      debit: 5000,
-      credit: null,
-      dt_start: '2021-10-23',
-      dt_end: '2021-10-23',
-    },
-    {
-      id: 2,
-      debit: null,
-      credit: 3000,
-      dt_start: '2021-10-24',
-      dt_end: '2021-10-24',
-    },
-    {
-      id: 3,
-      debit: 3000,
-      credit: null,
-      dt_start: '2021-10-25',
-      dt_end: '2021-10-25',
-    },
-    {
-      id: 4,
-      debit: null,
-      credit: 3000,
-      dt_start: '2021-10-25',
-      dt_end: '2021-10-25',
-    },
-  ]
+  const [accounts, setAccounts] = useState<Account[]>([])
 
   const balance = 200000
+
+  useEffect(() => {
+    ;(async () => {
+      const accounts = await (await fetch('/data/accounts.json')).json()
+      setAccounts(accounts)
+    })()
+  }, [])
 
   return (
     <Layout>
       <div className="w-full h-full flex flex-col p-2">
         {/* カレンダー */}
-        <BigCalendar records={records} />
+        <BigCalendar accounts={accounts} />
         <div className="w-full pt-2 flex items-center flex-wrap mb-2">
           {/* ドーナツチャート */}
           <div>
@@ -70,8 +50,14 @@ const Top: NextPage = () => {
 
           {/* 収支 */}
           <div className="w-full">
-            <div className="text-right border rounded border-gray-500 ml-auto text-5xl p-2 w-full scrollbar-x">
-              {balance === null ? null : `￥${balance.toLocaleString()}`}
+            <div className="text-right border rounded border-gray-500 ml-auto text-base md:text-5xl p-2 w-full">
+              {accounts
+                .reduce((prev, account) => {
+                  const debit = account.debit ? account.debit : 0
+                  const credit = account.credit ? account.credit : 0
+                  return prev + debit - credit
+                }, 0)
+                .toLocaleString()}
             </div>
           </div>
         </div>
