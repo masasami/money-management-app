@@ -49,8 +49,10 @@ const Top: NextPage = () => {
           </ul>
 
           {/* 収支 */}
-          <div className="w-full">
-            <div className="text-right border rounded border-gray-500 ml-auto text-base md:text-5xl p-2 w-full">
+          <div className="w-full flex items-center">
+            <span className="text-base md:text-5xl">収支合計</span>
+            <div className="text-right border rounded border-gray-500 ml-2 text-base md:text-5xl p-2 flex-1">
+              ¥
               {accounts
                 .reduce((prev, account) => {
                   const debit = account.debit ? account.debit : 0
