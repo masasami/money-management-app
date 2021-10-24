@@ -138,9 +138,11 @@ const BigCalendar = (props: Props) => {
                         </span>
 
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
+                          {/* TODO 0またはnullの場合は&nbsp;を表示 */}
                           {(5000).toLocaleString()}
                         </div>
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
+                          {/* TODO 0またはnullの場合は&nbsp;を表示 */}
                           {(5000 * -1).toLocaleString()}
                         </div>
                       </div>
