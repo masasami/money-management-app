@@ -57,7 +57,7 @@ const BigCalendar = (props: Props) => {
 
     return (
       <div className="w-full h-full flex flex-col">
-        <h1 className="w-full flex items-center">
+        <h1 className="w-full flex items-center md:text-2xl">
           {year}/{month}
           {/* 前の月へ */}
           <button className="ml-auto" onClick={movePrev}>
@@ -94,10 +94,10 @@ const BigCalendar = (props: Props) => {
                     return (
                       <div
                         key={j}
-                        className="text-gray-500 text-center relative border w-[calc(1/7*100%)]"
+                        className="text-gray-500 relative border w-[calc(1/7*100%)]"
                       >
                         {/* 日付 */}
-                        <span className="text-xs absolute top-0 left-0">
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">
                           {day}
                         </span>
                       </div>
@@ -108,10 +108,10 @@ const BigCalendar = (props: Props) => {
                     return (
                       <div
                         key={j}
-                        className="text-gray-500 text-center relative border w-[calc(1/7*100%)]"
+                        className="text-gray-500 relative border w-[calc(1/7*100%)]"
                       >
                         {/* 日付 */}
-                        <span className="text-xs absolute top-0 left-0">
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">
                           {day}
                         </span>
                       </div>
@@ -122,7 +122,7 @@ const BigCalendar = (props: Props) => {
                     return (
                       <div
                         key={j}
-                        className="text-center relative border w-[calc(1/7*100%)] flex flex-col"
+                        className="relative border w-[calc(1/7*100%)] flex flex-col"
                         onClick={() => {
                           const ymd = [
                             year,
@@ -133,14 +133,14 @@ const BigCalendar = (props: Props) => {
                         }}
                       >
                         {/* 日付 */}
-                        <span className="text-xs md:text-base absolute top-0 left-0">
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">
                           {day}
                         </span>
 
-                        <div className="w-full pr-2 text-right text-xs md:text-base text-blue-500 ellipsis mt-auto">
+                        <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
                           {(5000).toLocaleString()}
                         </div>
-                        <div className="w-full pr-2 text-right text-xs md:text-base text-red-500 ellipsis">
+                        <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
                           {(5000 * -1).toLocaleString()}
                         </div>
                       </div>
