@@ -1,34 +1,38 @@
 [
   {
     "id_account": 1,
+    "id_user": 1,
     "debit": 600000,
     "credit": null,
-    "dt_account": "2021-10-23",
-    "dt_create": "2021-10-23",
-    "dt_update": "2021-10-23"
+    "dt_account": "2021-10-23 00:00:00",
+    "dt_create": "2021-10-23 00:00:00",
+    "dt_update": "2021-10-23 00:00:00"
   },
   {
     "id_account": 2,
+    "id_user": 1,
     "debit": null,
     "credit": 3000,
-    "dt_account": "2021-10-24",
-    "dt_create": "2021-10-24",
-    "dt_update": "2021-10-24"
+    "dt_account": "2021-10-24 00:00:00",
+    "dt_create": "2021-10-24 00:00:00",
+    "dt_update": "2021-10-24 00:00:00"
   },
   {
     "id_account": 3,
+    "id_user": 1,
     "debit": 3000,
     "credit": null,
-    "dt_account": "2021-10-25",
-    "dt_create": "2021-10-25",
-    "dt_update": "2021-10-25"
+    "dt_account": "2021-10-25 00:00:00",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
   },
   {
     "id_account": 4,
+    "id_user": 1,
     "debit": null,
     "credit": 3000,
-    "dt_account": "2021-10-25",
-    "dt_create": "2021-10-25",
-    "dt_update": "2021-10-25"
+    "dt_account": "2021-10-25 00:00:00",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
   }
 ]
