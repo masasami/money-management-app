@@ -1,0 +1,42 @@
+[
+  {
+    "id_tag": 1,
+    "id_user": 1,
+    "title": "食費",
+    "color_code": "ff0000",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
+  },
+  {
+    "id_tag": 2,
+    "id_user": 1,
+    "title": "娯楽費",
+    "color_code": "0000ff",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
+  },
+  {
+    "id_tag": 3,
+    "id_user": 1,
+    "title": "水道・光熱費",
+    "color_code": "00ff00",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
+  },
+  {
+    "id_tag": 4,
+    "id_user": 1,
+    "title": "特別費",
+    "color_code": "ffff00",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
+  },
+  {
+    "id_tag": 5,
+    "id_user": 1,
+    "title": "特別費",
+    "color_code": "00ffff",
+    "dt_create": "2021-10-25 00:00:00",
+    "dt_update": "2021-10-25 00:00:00"
+  }
+]
