@@ -55,15 +55,17 @@ const TagList: NextPage = () => {
               {!tag.editing && (
                 <>
                   <AiOutlineTag
-                    fontSize={24}
+                    fontSize={32}
                     className="mr-4"
                     color={`#${tag.color_code}`}
                   />
-                  <span>{tag.title}</span>
+                  <span className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap">
+                    {tag.title}
+                  </span>
 
                   {/* 編集開始ボタン */}
                   <FaEdit
-                    fontSize={24}
+                    fontSize={32}
                     className="text-gray-500 ml-auto"
                     onClick={() =>
                       setTags((tags) => {
@@ -77,7 +79,7 @@ const TagList: NextPage = () => {
                   />
                   {/* 削除ボタン */}
                   <MdDeleteForever
-                    fontSize={24}
+                    fontSize={32}
                     className="text-red-500"
                     onClick={() => {
                       // TODO 削除処理
@@ -90,7 +92,7 @@ const TagList: NextPage = () => {
               {tag.editing && (
                 <>
                   <label className="border border-gray-500 rounded py-2 mr-4">
-                    <AiOutlineTag fontSize={24} color={`#${tag.color_code}`} />
+                    <AiOutlineTag fontSize={32} color={`#${tag.color_code}`} />
                     <input
                       className="hidden"
                       type="color"
@@ -106,7 +108,7 @@ const TagList: NextPage = () => {
                   </label>
                   <input
                     type="text"
-                    className="border border-gray-500 rounded p-2"
+                    className="w-full flex-1 border border-gray-500 rounded p-2"
                     value={tag.title}
                     onChange={(e) => {
                       setTags((tags) => {
@@ -117,7 +119,7 @@ const TagList: NextPage = () => {
                   />
                   {/* 編集完了ボタン */}
                   <AiOutlineCheck
-                    fontSize={24}
+                    fontSize={32}
                     className="text-gray-500 ml-auto"
                     onClick={() =>
                       // TODO 更新処理
@@ -129,7 +131,7 @@ const TagList: NextPage = () => {
                   />
                   {/* キャンセルボタン */}
                   <TiCancel
-                    fontSize={24}
+                    fontSize={32}
                     className="text-gray-500"
                     onClick={() => {
                       if (!tags[i].id_tag) {
