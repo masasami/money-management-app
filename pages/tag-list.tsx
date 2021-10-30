@@ -64,7 +64,7 @@ const TagList: NextPage = () => {
                   {/* 編集開始ボタン */}
                   <FaEdit
                     fontSize={24}
-                    className="text-green-500 ml-auto"
+                    className="text-gray-500 ml-auto"
                     onClick={() =>
                       setTags((tags) => {
                         tags[i].editing = true
@@ -118,7 +118,7 @@ const TagList: NextPage = () => {
                   {/* 編集完了ボタン */}
                   <AiOutlineCheck
                     fontSize={24}
-                    className="text-green-500 ml-auto"
+                    className="text-gray-500 ml-auto"
                     onClick={() =>
                       // TODO 更新処理
                       setTags((tags) => {
@@ -130,7 +130,7 @@ const TagList: NextPage = () => {
                   {/* キャンセルボタン */}
                   <TiCancel
                     fontSize={24}
-                    className="text-yellow-500"
+                    className="text-gray-500"
                     onClick={() => {
                       if (!tags[i].id_tag) {
                         setTags((tags) => {
