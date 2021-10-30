@@ -33,7 +33,14 @@ const TagList: NextPage = () => {
   useEffect(() => {
     ;(async () => {
       const tags: Tag[] = await (await fetch('/data/tags.json')).json()
-      setTags(tags.map((tag) => ({ ...tag, editing: false })))
+      setTags(
+        tags.map((tag) => ({
+          ...tag,
+          editing: false,
+          title_old: '',
+          color_code_old: '',
+        }))
+      )
     })()
   }, [])
 
