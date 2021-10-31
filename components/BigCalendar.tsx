@@ -73,10 +73,7 @@ const BigCalendar = (props: Props) => {
           {/* カレンダーの曜日 */}
           <div className="flex h-8">
             {weeks.map((week, i) => (
-              <div
-                key={i}
-                className="w-[calc(1/7*100%)] border flex items-center justify-center"
-              >
+              <div key={i} className="w-[calc(1/7*100%)] border flex items-center justify-center">
                 {week}
               </div>
             ))}
@@ -92,28 +89,18 @@ const BigCalendar = (props: Props) => {
                   if (week == 0 && dayNum < startDay) {
                     const day = lastMonthEndDayCount - startDay + dayNum + 1
                     return (
-                      <div
-                        key={j}
-                        className="text-gray-500 relative border w-[calc(1/7*100%)]"
-                      >
+                      <div key={j} className="text-gray-500 relative border w-[calc(1/7*100%)]">
                         {/* 日付 */}
-                        <span className="text-xs md:text-2xl absolute top-0 left-0">
-                          {day}
-                        </span>
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
                       </div>
                     )
                   } else if (dayCount > endDayCount) {
                     const day = dayCount - endDayCount
                     dayCount++
                     return (
-                      <div
-                        key={j}
-                        className="text-gray-500 relative border w-[calc(1/7*100%)]"
-                      >
+                      <div key={j} className="text-gray-500 relative border w-[calc(1/7*100%)]">
                         {/* 日付 */}
-                        <span className="text-xs md:text-2xl absolute top-0 left-0">
-                          {day}
-                        </span>
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
                       </div>
                     )
                   } else {
@@ -124,18 +111,12 @@ const BigCalendar = (props: Props) => {
                         key={j}
                         className="relative border w-[calc(1/7*100%)] flex flex-col"
                         onClick={() => {
-                          const ymd = [
-                            year,
-                            `0${month}`.slice(-2),
-                            `0${day}`.slice(-2),
-                          ].join('-')
+                          const ymd = [year, `0${month}`.slice(-2), `0${day}`.slice(-2)].join('-')
                           showModal(ymd)
                         }}
                       >
                         {/* 日付 */}
-                        <span className="text-xs md:text-2xl absolute top-0 left-0">
-                          {day}
-                        </span>
+                        <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
 
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
                           {/* TODO 0またはnullの場合は&nbsp;を表示 */}
