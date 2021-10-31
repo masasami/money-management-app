@@ -10,10 +10,14 @@ import Layout from 'layouts/Layout'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
 
-// TODO ユーザーが必要
-const user = { id_user: 1 }
+// Recoil
+import { useRecoilValue } from 'recoil'
+import { userState } from 'lib/atoms'
 
 const TagList: NextPage = () => {
+  const user = useRecoilValue(userState)
+  if (!user) return null
+
   const [tags, setTags] = useState<Tag[]>([])
   // タグ追加
   const addTag = useCallback(() => {

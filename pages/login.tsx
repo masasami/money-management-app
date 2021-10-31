@@ -7,7 +7,13 @@ import { IoIosClose } from 'react-icons/io'
 import { User } from 'interfaces/user'
 import { apiService } from 'lib/api.service'
 
+// Recoil
+import { useSetRecoilState } from 'recoil'
+import { userState } from 'lib/atoms'
+
 const Login: NextPage = () => {
+  const setUser = useSetRecoilState(userState)
+
   const [loginId, setLoginId] = useState('')
   const [password, setPassword] = useState('')
   const [isError, setIsError] = useState(false)
@@ -19,6 +25,7 @@ const Login: NextPage = () => {
         password: password,
       })
       console.log(user)
+      setUser(user)
       Router.push('top')
     } catch (e) {
       console.error(e)
