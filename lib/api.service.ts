@@ -9,16 +9,10 @@ export const apiService = {
   get: async <T = any>(resource: string) => {
     return (await axios.get<T>(resource)).data
   },
-  post: async <T = any>(
-    resource: string,
-    param: { [key: string]: any } | null = null
-  ) => {
+  post: async <T = any>(resource: string, param: { [key: string]: any } | null = null) => {
     return (await axios.post<T>(resource, param)).data
   },
-  put: async <T = any>(
-    resource: string,
-    param: { [key: string]: any } | null = null
-  ) => {
+  put: async <T = any>(resource: string, param: { [key: string]: any } | null = null) => {
     return (await axios.put<T>(resource, param)).data
   },
   delete: async <T = any>(resource: string) => {
