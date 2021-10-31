@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react'
 import ModalDebitCredit from 'components/ModalDebitCredit'
 import { Account } from 'interfaces/account'
+import moment from 'moment'
 
 type Props = {
   accounts: Account[]
@@ -111,20 +112,38 @@ const BigCalendar = (props: Props) => {
                         key={j}
                         className="relative border w-[calc(1/7*100%)] flex flex-col"
                         onClick={() => {
-                          const ymd = [year, `0${month}`.slice(-2), `0${day}`.slice(-2)].join('-')
-                          showModal(ymd)
+                          showModal(moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD'))
                         }}
                       >
                         {/* 日付 */}
                         <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
 
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
-                          {/* TODO 0またはnullの場合は&nbsp;を表示 */}
-                          {(5000).toLocaleString()}
+                          {props.accounts
+                            .filter((account) => {
+                              const yyyymmdd = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
+                              const date = new Date(account.dt_account).getTime()
+                              const start = new Date(`${yyyymmdd} 00:00:00`).getTime()
+                              const end = new Date(`${yyyymmdd} 23:59:59`).getTime()
+                              return start <= date && date <= end
+                            })
+                            .reduce((prev, account) => {
+                              return prev + (account.debit ? account.debit : 0)
+                            }, 0)
+                            .toLocaleString()}
                         </div>
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
-                          {/* TODO 0またはnullの場合は&nbsp;を表示 */}
-                          {(5000 * -1).toLocaleString()}
+                          {props.accounts
+                            .filter((account) => {
+                              const yyyymmdd = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
+                              const date = new Date(account.dt_account).getTime()
+                              const start = new Date(`${yyyymmdd} 00:00:00`).getTime()
+                              const end = new Date(`${yyyymmdd} 23:59:59`).getTime()
+                              return start <= date && date <= end
+                            })
+                            .reduce((prev, account) => {
+                              return prev + (account.credit ? account.credit : 0)
+                            }, 0) * -(1).toLocaleString()}
                         </div>
                       </div>
                     )
@@ -136,7 +155,7 @@ const BigCalendar = (props: Props) => {
         </div>
       </div>
     )
-  }, [year, month])
+  }, [year, month, props.accounts])
 
   return (
     <div className="w-full h-full">
