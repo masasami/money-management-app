@@ -8,6 +8,10 @@ import { TiCancel } from 'react-icons/ti'
 import Layout from 'layouts/Layout'
 import { useCallback, useEffect, useState } from 'react'
 import { Tag } from 'interfaces/tag'
+import { apiService } from 'lib/api.service'
+
+// TODO ユーザーが必要
+const user = { id_user: 1 }
 
 const TagList: NextPage = () => {
   const [tags, setTags] = useState<Tag[]>([])
@@ -32,7 +36,9 @@ const TagList: NextPage = () => {
 
   useEffect(() => {
     ;(async () => {
-      const tags: Tag[] = await (await fetch('/data/tags.json')).json()
+      const tags = await apiService.get<Tag[]>(
+        `get_tags_by_id_user/${user.id_user}`
+      )
       setTags(
         tags.map((tag) => ({
           ...tag,
