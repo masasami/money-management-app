@@ -1,3 +1,4 @@
+import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { AiOutlineTag } from 'react-icons/ai'
 import { FaEdit } from 'react-icons/fa'
@@ -6,7 +7,6 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import { TiCancel } from 'react-icons/ti'
 
 import Layout from 'layouts/Layout'
-import { useCallback, useEffect, useState } from 'react'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
 
@@ -20,7 +20,7 @@ const TagList: NextPage = () => {
     setTags((tags) => [
       {
         id_tag: 0,
-        id_user: 0,
+        id_user: user.id_user,
         title: '',
         color_code: '000000',
         dt_create: '',
@@ -34,11 +34,37 @@ const TagList: NextPage = () => {
     ])
   }, [])
 
+  // タグ新規作成
+  const createTag = useCallback(async (tag: Tag, index: number) => {
+    const createdTag = await apiService.post<Tag>('create_tag', tag)
+    setTags((tags) =>
+      tags.map((tag, i) => {
+        if (i === index) return { ...createdTag, editing: false }
+        return tag
+      })
+    )
+  }, [])
+
+  // タグ編集完了
+  const updateTag = useCallback(async (tag: Tag) => {
+    const updatedTag = await apiService.put<Tag>(`update_tag/${tag.id_tag}`, tag)
+    setTags((tags) =>
+      tags.map((tag) => {
+        if (tag.id_tag === updatedTag.id_tag) return { ...updatedTag, editing: false }
+        return { ...tag, editing: false }
+      })
+    )
+  }, [])
+
+  // タグ削除
+  const deleteTag = useCallback(async (id_tag: number) => {
+    await apiService.delete(`delete_tag/${id_tag}`)
+    setTags((tags) => tags.filter((tag) => tag.id_tag !== id_tag))
+  }, [])
+
   useEffect(() => {
     ;(async () => {
-      const tags = await apiService.get<Tag[]>(
-        `get_tags_by_id_user/${user.id_user}`
-      )
+      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user/${user.id_user}`)
       setTags(
         tags.map((tag) => ({
           ...tag,
@@ -60,21 +86,12 @@ const TagList: NextPage = () => {
         </header>
         <ul>
           {tags.map((tag, i) => (
-            <li
-              key={i}
-              className="flex items-center text-2xl pt-3 first:pt-6 pb-3 pl-6"
-            >
+            <li key={i} className="flex items-center text-2xl pt-3 first:pt-6 pb-3 pl-6">
               {/* 通常時 */}
               {!tag.editing && (
                 <>
-                  <AiOutlineTag
-                    fontSize={32}
-                    className="mr-4"
-                    color={`#${tag.color_code}`}
-                  />
-                  <span className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap">
-                    {tag.title}
-                  </span>
+                  <AiOutlineTag fontSize={32} className="mr-4" color={`#${tag.color_code}`} />
+                  <span className="flex-1 overflow-ellipsis overflow-hidden whitespace-nowrap">{tag.title}</span>
 
                   {/* 編集開始ボタン */}
                   <FaEdit
@@ -95,8 +112,7 @@ const TagList: NextPage = () => {
                     fontSize={32}
                     className="text-red-500"
                     onClick={() => {
-                      // TODO 削除処理
-                      setTags((tags) => tags.filter((_, j) => i !== j))
+                      deleteTag(tag.id_tag)
                     }}
                   />
                 </>
@@ -134,13 +150,9 @@ const TagList: NextPage = () => {
                   <AiOutlineCheck
                     fontSize={32}
                     className="text-gray-500 ml-auto"
-                    onClick={() =>
-                      // TODO 更新処理
-                      setTags((tags) => {
-                        tags[i].editing = false
-                        return [...tags]
-                      })
-                    }
+                    onClick={() => {
+                      tag.id_tag ? updateTag(tag) : createTag(tag, i)
+                    }}
                   />
                   {/* キャンセルボタン */}
                   <TiCancel
@@ -157,12 +169,8 @@ const TagList: NextPage = () => {
                       setTags((tags) => {
                         tags[i].editing = false
                         // 編集開始時の状態を復元
-                        tags[i].title = tags[i].title_old
-                          ? (tags[i].title_old as string)
-                          : ''
-                        tags[i].color_code = tags[i].color_code_old
-                          ? (tags[i].color_code_old as string)
-                          : ''
+                        tags[i].title = tags[i].title_old ? (tags[i].title_old as string) : ''
+                        tags[i].color_code = tags[i].color_code_old ? (tags[i].color_code_old as string) : ''
                         return [...tags]
                       })
                     }}
