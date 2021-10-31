@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { RiCheckboxBlankFill } from 'react-icons/ri'
 import type { NextPage } from 'next'
+import moment from 'moment'
 
 import Layout from 'layouts/Layout'
 import BigCalendar from 'components/BigCalendar'
@@ -16,12 +17,19 @@ const Top: NextPage = () => {
   const user = useRecoilValue(userState)
   if (!user) return null
 
+  const date = new Date()
+  const [year, setYear] = useState(date.getFullYear())
+  const [month, setMonth] = useState(date.getMonth() + 1)
   const [accounts, setAccounts] = useState<Account[]>([])
   const [balance, setBalance] = useState(0)
 
   useEffect(() => {
     ;(async () => {
-      const accounts = await apiService.get<Account[]>(`get_accounts_by_id_user/${user.id_user}`)
+      const start = moment(new Date(year, month - 1, 1)).format('YYYY-MM-DD 00:00:00')
+      const end = moment(new Date(year, month, 0)).format('YYYY-MM-DD 23:59:59')
+      const accounts = await apiService.get<Account[]>(
+        `get_accounts_by_id_user/${user.id_user}?start=${start}&end=${end}`
+      )
       setAccounts(accounts)
 
       setBalance(
@@ -32,7 +40,7 @@ const Top: NextPage = () => {
         }, 0)
       )
     })()
-  }, [])
+  }, [month])
 
   return (
     <Layout>
