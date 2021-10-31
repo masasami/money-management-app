@@ -6,16 +6,22 @@ import Layout from 'layouts/Layout'
 import BigCalendar from 'components/BigCalendar'
 import DoughnutChart from 'components/DoughnutChart'
 import { Account } from 'interfaces/account'
+import { apiService } from 'lib/api.service'
+
+// Recoil
+import { useRecoilValue } from 'recoil'
+import { userState } from 'lib/atoms'
 
 const Top: NextPage = () => {
+  const user = useRecoilValue(userState)
+  if (!user) return null
+
   const [accounts, setAccounts] = useState<Account[]>([])
   const [balance, setBalance] = useState(0)
 
   useEffect(() => {
     ;(async () => {
-      const accounts: Account[] = await (
-        await fetch('/data/accounts.json')
-      ).json()
+      const accounts = await apiService.get<Account[]>(`get_accounts_by_id_user/${user.id_user}`)
       setAccounts(accounts)
 
       setBalance(
@@ -41,20 +47,14 @@ const Top: NextPage = () => {
 
           {/* タグ一覧 */}
           <ul className="h-[150px] p-3 overflow-y-scroll flex-1 scrollbar-y">
-            {[
-              '食費',
-              '娯楽費',
-              '水道・光熱費',
-              '特別費',
-              '習い事費',
-              '趣味',
-              '長い名前長い名前長い名前',
-            ].map((tag, i) => (
-              <li key={i} className="mb-2 flex items-center">
-                <RiCheckboxBlankFill />
-                <span className="flex-1 ellipsis">{tag}</span>
-              </li>
-            ))}
+            {['食費', '娯楽費', '水道・光熱費', '特別費', '習い事費', '趣味', '長い名前長い名前長い名前'].map(
+              (tag, i) => (
+                <li key={i} className="mb-2 flex items-center">
+                  <RiCheckboxBlankFill />
+                  <span className="flex-1 ellipsis">{tag}</span>
+                </li>
+              )
+            )}
           </ul>
 
           {/* 収支 */}
