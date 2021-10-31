@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { RiCheckboxBlankFill } from 'react-icons/ri'
 import type { NextPage } from 'next'
 import moment from 'moment'
@@ -27,6 +27,7 @@ const Top: NextPage = () => {
     ;(async () => {
       const start = moment(new Date(year, month - 1, 1)).format('YYYY-MM-DD 00:00:00')
       const end = moment(new Date(year, month, 0)).format('YYYY-MM-DD 23:59:59')
+
       const accounts = await apiService.get<Account[]>(
         `get_accounts_by_id_user/${user.id_user}?start=${start}&end=${end}`
       )
@@ -42,11 +43,24 @@ const Top: NextPage = () => {
     })()
   }, [month])
 
+  const movePrev = useCallback(async (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    setYear(year)
+    setMonth(month)
+  }, [])
+  const moveNext = useCallback(async (date: Date) => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    setYear(year)
+    setMonth(month)
+  }, [])
+
   return (
     <Layout>
       <div className="w-full h-full flex flex-col p-2">
         {/* カレンダー */}
-        <BigCalendar accounts={accounts} />
+        <BigCalendar accounts={accounts} movePrev={movePrev} moveNext={moveNext} />
         <div className="w-full pt-2 flex items-center flex-wrap mb-2">
           {/* ドーナツチャート */}
           <div>

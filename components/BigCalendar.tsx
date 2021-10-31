@@ -5,6 +5,8 @@ import moment from 'moment'
 
 type Props = {
   accounts: Account[]
+  movePrev: (date: Date) => void
+  moveNext: (date: Date) => void
 }
 
 const BigCalendar = (props: Props) => {
@@ -26,24 +28,30 @@ const BigCalendar = (props: Props) => {
   // 前の月へ移動
   const movePrev = () => {
     console.log('前の月')
+    let prevYear = year
     const prevMonth = month - 1
     if (prevMonth < 1) {
-      setYear((year) => year - 1)
+      prevYear -= 1
+      setYear(prevYear)
       setMonth(12)
     } else {
       setMonth(prevMonth)
     }
+    props.movePrev(new Date(prevYear, prevMonth - 1, 1))
   }
   // 次の月へ移動
   const moveNext = () => {
     console.log('次の月')
+    let nextYear = year
     const nextMonth = month + 1
     if (nextMonth > 12) {
-      setYear((year) => year + 1)
+      nextYear += 1
+      setYear(nextYear)
       setMonth(1)
     } else {
       setMonth(nextMonth)
     }
+    props.movePrev(new Date(nextYear, nextMonth - 1, 1))
   }
 
   const renderCalendar = useMemo(() => {
@@ -155,7 +163,7 @@ const BigCalendar = (props: Props) => {
         </div>
       </div>
     )
-  }, [year, month, props.accounts])
+  }, [props.accounts])
 
   return (
     <div className="w-full h-full">
