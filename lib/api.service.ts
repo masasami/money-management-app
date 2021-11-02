@@ -2,6 +2,7 @@ import axios from 'axios'
 const apiUrl = process.env.NEXT_PUBLIC_API_URL
 axios.interceptors.request.use((config) => {
   config.baseURL = apiUrl
+  config.withCredentials = true
   return config
 })
 
