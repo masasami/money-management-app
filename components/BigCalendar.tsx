@@ -10,14 +10,16 @@ type Props = {
 }
 
 const BigCalendar = (props: Props) => {
-  const [isShow, setIsShow] = useState(false)
-  const showModal = useCallback((today: string) => {
-    console.log(today)
-    setIsShow(true)
+  const [filteredAccounts, setFilteredAccounts] = useState<Account[] | null>(null)
+  const [datetimeAccount, setDatetimeAccount] = useState('')
+  const showModal = useCallback((datetimeAccount: string, filteredAccounts: Account[]) => {
+    setDatetimeAccount(datetimeAccount)
+    setFilteredAccounts(filteredAccounts)
   }, [])
 
   const hideModal = useCallback(() => {
-    setIsShow(false)
+    setDatetimeAccount('')
+    setFilteredAccounts(null)
   }, [])
 
   const weeks = ['日', '月', '火', '水', '木', '金', '土']
@@ -135,7 +137,8 @@ const BigCalendar = (props: Props) => {
                         key={j}
                         className="relative border w-[calc(1/7*100%)] flex flex-col"
                         onClick={() => {
-                          showModal(moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD'))
+                          const datetimeAccount = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
+                          showModal(datetimeAccount, filteredAccounts)
                         }}
                       >
                         {/* 日付 */}
@@ -162,7 +165,9 @@ const BigCalendar = (props: Props) => {
   return (
     <div className="w-full h-full">
       {renderCalendar}
-      {isShow && <ModalDebitCredit onHide={() => hideModal()} />}
+      {filteredAccounts && (
+        <ModalDebitCredit accounts={filteredAccounts} datetimeAccount={datetimeAccount} onHide={() => hideModal()} />
+      )}
     </div>
   )
 }

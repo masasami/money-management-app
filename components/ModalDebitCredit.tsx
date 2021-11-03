@@ -1,9 +1,13 @@
-import { AiOutlineClose } from 'react-icons/ai'
+import { useCallback, useEffect } from 'react'
+import { IoIosClose } from 'react-icons/io'
 import { BsArrowReturnLeft } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
-import { useCallback } from 'react'
+
+import { Account } from 'interfaces/account'
 
 type Props = {
+  datetimeAccount: string
+  accounts: Account[]
   onHide: () => void
 }
 
@@ -11,21 +15,36 @@ const ModalDebitCredit = (props: Props) => {
   const onClickOk = useCallback(() => {
     props.onHide()
   }, [])
+
+  useEffect(() => {
+    console.log(props.accounts)
+  }, [])
+
   return (
     <div className="modal-grayout">
       <div className="modal-screen">
         <header className="w-full h-14 text-white bg-blue-500 flex items-center justify-center p-2 rounded-t relative">
-          <h2 className="absolute mx-auto">ヘッダー</h2>
+          <h2 className="absolute mx-auto">{props.datetimeAccount}</h2>
           <button className="text-red-500 ml-auto font-bold" onClick={props.onHide}>
-            <AiOutlineClose />
+            <IoIosClose fontSize={32} />
           </button>
         </header>
         <main className="flex-1 p-5 scrollbar-y">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore tenetur delectus ducimus vitae vero pariatur
-          eum animi impedit cupiditate dolores, eius libero excepturi, fuga unde consequuntur dignissimos. Fugit,
-          molestiae hic. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae earum molestias maxime libero
-          porro temporibus veritatis accusamus cumque? Nesciunt omnis vero sed inventore, sapiente voluptatem id
-          consectetur ex quas veniam.
+          <ul>
+            {props.accounts.map((account, i) => {
+              const debit = Number(account.debit)
+              const credit = Number(account.credit)
+              let amount = 0
+              if (debit > 0) amount = debit
+              if (credit > 0) amount = credit * -1
+              return (
+                <li key={i} className="p-2 mb-3">
+                  {account.content}
+                  {amount.toLocaleString()}
+                </li>
+              )
+            })}
+          </ul>
         </main>
         <footer className="px-5 pb-5 flex items-center justify-center">
           <button className="btn-sub" onClick={props.onHide}>
