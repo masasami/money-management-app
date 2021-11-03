@@ -16,21 +16,16 @@ const ModalDebitCredit = (props: Props) => {
       <div className="modal-screen">
         <header className="w-full h-14 text-white bg-blue-500 flex items-center justify-center p-2 rounded-t relative">
           <h2 className="absolute mx-auto">ヘッダー</h2>
-          <button
-            className="text-red-500 ml-auto font-bold"
-            onClick={props.onHide}
-          >
+          <button className="text-red-500 ml-auto font-bold" onClick={props.onHide}>
             <AiOutlineClose />
           </button>
         </header>
         <main className="flex-1 p-5 scrollbar-y">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore
-          tenetur delectus ducimus vitae vero pariatur eum animi impedit
-          cupiditate dolores, eius libero excepturi, fuga unde consequuntur
-          dignissimos. Fugit, molestiae hic. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Quae earum molestias maxime libero porro
-          temporibus veritatis accusamus cumque? Nesciunt omnis vero sed
-          inventore, sapiente voluptatem id consectetur ex quas veniam.
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolore tenetur delectus ducimus vitae vero pariatur
+          eum animi impedit cupiditate dolores, eius libero excepturi, fuga unde consequuntur dignissimos. Fugit,
+          molestiae hic. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae earum molestias maxime libero
+          porro temporibus veritatis accusamus cumque? Nesciunt omnis vero sed inventore, sapiente voluptatem id
+          consectetur ex quas veniam.
         </main>
         <footer className="px-5 pb-5 flex items-center justify-center">
           <button className="btn-sub" onClick={props.onHide}>
