@@ -115,6 +115,21 @@ const BigCalendar = (props: Props) => {
                   } else {
                     const day = dayCount
                     dayCount++
+                    // カレンダーの日付のものだけ抽出
+                    const filteredAccounts = props.accounts.filter((account) => {
+                      const yyyymmdd = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
+                      const date = new Date(account.dt_account).getTime()
+                      const start = new Date(`${yyyymmdd} 00:00:00`).getTime()
+                      const end = new Date(`${yyyymmdd} 23:59:59`).getTime()
+                      return start <= date && date <= end
+                    })
+                    const totalDebit = filteredAccounts.reduce((prev, account) => {
+                      return prev + (account.debit ? account.debit : 0)
+                    }, 0)
+                    const totalCredit = filteredAccounts.reduce((prev, account) => {
+                      return prev + (account.credit ? account.credit : 0)
+                    }, 0)
+
                     return (
                       <div
                         key={j}
@@ -127,31 +142,10 @@ const BigCalendar = (props: Props) => {
                         <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
 
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
-                          {props.accounts
-                            .filter((account) => {
-                              const yyyymmdd = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
-                              const date = new Date(account.dt_account).getTime()
-                              const start = new Date(`${yyyymmdd} 00:00:00`).getTime()
-                              const end = new Date(`${yyyymmdd} 23:59:59`).getTime()
-                              return start <= date && date <= end
-                            })
-                            .reduce((prev, account) => {
-                              return prev + (account.debit ? account.debit : 0)
-                            }, 0)
-                            .toLocaleString()}
+                          {totalDebit.toLocaleString()}
                         </div>
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
-                          {props.accounts
-                            .filter((account) => {
-                              const yyyymmdd = moment(new Date(`${year}-${month}-${day}`)).format('YYYY-MM-DD')
-                              const date = new Date(account.dt_account).getTime()
-                              const start = new Date(`${yyyymmdd} 00:00:00`).getTime()
-                              const end = new Date(`${yyyymmdd} 23:59:59`).getTime()
-                              return start <= date && date <= end
-                            })
-                            .reduce((prev, account) => {
-                              return prev + (account.credit ? account.credit : 0)
-                            }, 0) * -(1).toLocaleString()}
+                          {totalCredit * -(1).toLocaleString()}
                         </div>
                       </div>
                     )
