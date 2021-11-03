@@ -1,9 +1,14 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
 import { BsArrowReturnLeft } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
 
 import { Account } from 'interfaces/account'
+import { Tag } from 'interfaces/tag'
+import { apiService } from 'lib/api.service'
+
+import { useRecoilValue } from 'recoil'
+import { userState } from 'lib/atoms'
 
 type Props = {
   datetimeAccount: string
@@ -12,12 +17,21 @@ type Props = {
 }
 
 const ModalDebitCredit = (props: Props) => {
+  const user = useRecoilValue(userState)
+  if (!user) return null
+
+  const [tags, setTags] = useState<Tag[]>([])
+
   const onClickOk = useCallback(() => {
     props.onHide()
   }, [])
 
   useEffect(() => {
     console.log(props.accounts)
+    ;(async () => {
+      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user/${user.id_user}`)
+      setTags(tags)
+    })()
   }, [])
 
   return (
@@ -38,9 +52,19 @@ const ModalDebitCredit = (props: Props) => {
               if (debit > 0) amount = debit
               if (credit > 0) amount = credit * -1
               return (
-                <li key={i} className="p-2 mb-3">
-                  {account.content}
-                  {amount.toLocaleString()}
+                <li key={i} className="border border-gray-300 p-2 mb-3">
+                  <div className="flex items-center">
+                    <input type="text" value={account.content} />
+                    <div>{amount.toLocaleString()}</div>
+                    <select>
+                      <option value=""></option>
+                      {tags.map((tag, i) => (
+                        <option key={i} value={tag.id_tag}>
+                          {tag.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </li>
               )
             })}
