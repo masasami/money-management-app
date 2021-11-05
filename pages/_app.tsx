@@ -1,13 +1,15 @@
 import 'styles/tailwind-bundle.css'
 import 'styles/globals.css'
-import { RecoilRoot } from 'recoil'
-
 import type { AppProps } from 'next/app'
+import { RecoilRoot } from 'recoil'
+import Auth from 'layouts/Auth'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps, router }: AppProps) {
   return (
     <RecoilRoot>
-      <Component {...pageProps} />
+      <Auth route={router.route}>
+        <Component {...pageProps} />
+      </Auth>
     </RecoilRoot>
   )
 }
