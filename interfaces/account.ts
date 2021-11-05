@@ -10,4 +10,6 @@ export type Account = {
   dt_update: string
 
   title?: string
+
+  is_debit?: boolean
 }

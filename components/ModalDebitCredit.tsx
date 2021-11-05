@@ -20,7 +20,9 @@ const ModalDebitCredit = (props: Props) => {
   const user = useRecoilValue(userState)
   if (!user) return null
 
-  const [accounts, setAccounts] = useState<Account[]>(props.accounts)
+  const [accounts, setAccounts] = useState<Account[]>(
+    props.accounts.map<Account>((account) => ({ ...account, is_debit: !!account.debit }))
+  )
   const [tags, setTags] = useState<Tag[]>([])
 
   const onClickOk = useCallback(() => {
@@ -50,14 +52,41 @@ const ModalDebitCredit = (props: Props) => {
         <main className="flex-1 p-5 scrollbar-y">
           <ul>
             {accounts.map((account, i) => {
-              const debit = Number(account.debit)
-              const credit = Number(account.credit)
-              let amount = 0
-              if (debit > 0) amount = debit
-              if (credit > 0) amount = credit * -1
               return (
                 <li key={i} className="form-control mb-3">
                   <div className="md:flex md:items-center">
+                    {/* 収入ボタン */}
+                    {account.is_debit && (
+                      <button
+                        className="btn text-white bg-green-500"
+                        onClick={() => {
+                          setAccounts((accounts) => {
+                            accounts[i].is_debit = false
+                            accounts[i].debit = null
+                            accounts[i].credit = null
+                            return [...accounts]
+                          })
+                        }}
+                      >
+                        収入
+                      </button>
+                    )}
+                    {/* 支出ボタン */}
+                    {!account.is_debit && (
+                      <button
+                        className="btn text-white bg-red-500"
+                        onClick={() => {
+                          setAccounts((accounts) => {
+                            accounts[i].is_debit = true
+                            accounts[i].debit = null
+                            accounts[i].credit = null
+                            return [...accounts]
+                          })
+                        }}
+                      >
+                        支出
+                      </button>
+                    )}
                     <input
                       type="text"
                       className="form-control"
@@ -69,7 +98,52 @@ const ModalDebitCredit = (props: Props) => {
                         })
                       }}
                     />
-                    <div className="flex-1 text-right">{amount.toLocaleString()}</div>
+                    {/* 収入 */}
+                    {account.is_debit && (
+                      <input
+                        type="text"
+                        className="form-control text-right"
+                        value={account.debit !== null ? account.debit.toLocaleString() : ''}
+                        onChange={(e) => {
+                          setAccounts((accounts) => {
+                            const value = e.target.value.replaceAll(',', '')
+                            if (!value) {
+                              accounts[i].debit = null
+                              return [...accounts]
+                            }
+
+                            const debit = Number(value)
+                            if (isNaN(debit)) return [...accounts]
+
+                            accounts[i].debit = debit
+                            return [...accounts]
+                          })
+                        }}
+                      />
+                    )}
+                    {/* 支出 */}
+                    {!account.is_debit && (
+                      <input
+                        type="text"
+                        className="form-control text-right"
+                        value={account.credit !== null ? account.credit.toLocaleString() : ''}
+                        onChange={(e) => {
+                          setAccounts((accounts) => {
+                            const value = e.target.value.replaceAll(',', '')
+                            if (!value) {
+                              accounts[i].credit = null
+                              return [...accounts]
+                            }
+
+                            const credit = Number(value)
+                            if (isNaN(credit)) return [...accounts]
+
+                            accounts[i].credit = credit
+                            return [...accounts]
+                          })
+                        }}
+                      />
+                    )}
 
                     {/* タグリスト */}
                     <select
