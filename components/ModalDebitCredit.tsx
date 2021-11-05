@@ -3,6 +3,7 @@ import { IoIosClose } from 'react-icons/io'
 import { MdDeleteForever } from 'react-icons/md'
 import { BsArrowReturnLeft } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
+import moment from 'moment'
 
 import { Account } from 'interfaces/account'
 import { Tag } from 'interfaces/tag'
@@ -27,8 +28,26 @@ const ModalDebitCredit = (props: Props) => {
   )
   const [tags, setTags] = useState<Tag[]>([])
 
+  const addAccount = useCallback((isDebit: boolean) => {
+    setAccounts((accounts) => [
+      {
+        id_account: 0,
+        id_user: user.id_user,
+        id_tag: null,
+        content: '',
+        debit: null,
+        credit: null,
+        dt_account: moment(new Date(props.datetimeAccount)).format('YYYY-MM-DD'),
+        dt_create: '',
+        dt_update: '',
+        is_debit: isDebit,
+      },
+      ...accounts,
+    ])
+  }, [])
+
   // 勘定一覧を更新しグローバルにセット
-  const onClickOk = useCallback(async () => {
+  const onClickSave = useCallback(async () => {
     try {
       const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', { accounts })
       setGlobalAccounts(upsertedAccounts)
@@ -57,12 +76,21 @@ const ModalDebitCredit = (props: Props) => {
           </button>
         </header>
 
+        <div className="flex p-5">
+          <button className="btn text-white bg-green-500 ml-auto" onClick={() => addAccount(true)}>
+            収入を追加
+          </button>
+          <button className="btn text-white bg-red-500 ml-3" onClick={() => addAccount(false)}>
+            支出を追加
+          </button>
+        </div>
+
         {/* メイン */}
-        <main className="flex-1 p-5 scrollbar-y">
+        <main className="flex-1 px-5 scrollbar-y">
           <ul>
             {accounts.map((account, i) => {
               return (
-                <li key={i} className="form-control mb-3">
+                <li key={i} className="form-control mb-3 last:mb-0">
                   <div className="md:flex md:items-center">
                     {/* 収入ボタン */}
                     {account.is_debit && (
@@ -101,7 +129,7 @@ const ModalDebitCredit = (props: Props) => {
                       <input
                         type="text"
                         className="form-control w-full"
-                        value={account.content}
+                        value={account.content || ''}
                         onChange={(e) => {
                           setAccounts((accounts) => {
                             accounts[i].content = e.target.value
@@ -204,9 +232,9 @@ const ModalDebitCredit = (props: Props) => {
             <span className="ml-1">戻る</span>
           </button>
 
-          <button className="btn-main ml-3" onClick={() => onClickOk()}>
+          <button className="btn-main ml-3" onClick={() => onClickSave()}>
             <AiOutlineCheck />
-            <span className="ml-1">OK</span>
+            <span className="ml-1">保存</span>
           </button>
         </footer>
       </div>
