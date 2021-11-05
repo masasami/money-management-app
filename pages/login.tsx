@@ -28,7 +28,7 @@ const Login: NextPage = () => {
       setUser(user)
       Router.push('top')
     } catch (e) {
-      console.error(e)
+      console.log(e)
       setIsError(true)
     }
   }
