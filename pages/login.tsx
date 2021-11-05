@@ -55,6 +55,7 @@ const Login: NextPage = () => {
           className="w-full border border-gray-300 rounded py-1 px-4 mb-4 outline-none"
           value={loginId}
           onChange={(e) => setLoginId(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && login()}
         />
 
         <h2>パスワード</h2>
@@ -63,6 +64,7 @@ const Login: NextPage = () => {
           className="w-full border border-gray-300 rounded py-1 px-4 mb-4 outline-none"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && login()}
         />
 
         <button className="btn-main w-full justify-center" onClick={login}>
