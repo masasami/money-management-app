@@ -7,8 +7,8 @@ import { Account } from 'interfaces/account'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
 
-import { useRecoilValue } from 'recoil'
-import { userState } from 'lib/atoms'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { accountsState, userState } from 'lib/atoms'
 
 type Props = {
   datetimeAccount: string
@@ -20,14 +20,17 @@ const ModalDebitCredit = (props: Props) => {
   const user = useRecoilValue(userState)
   if (!user) return null
 
+  const setGlobalAccounts = useSetRecoilState(accountsState)
   const [accounts, setAccounts] = useState<Account[]>(
     props.accounts.map<Account>((account) => ({ ...account, is_debit: !!account.debit }))
   )
   const [tags, setTags] = useState<Tag[]>([])
 
+  // 勘定一覧を更新しグローバルにセット
   const onClickOk = useCallback(async () => {
     try {
-      await apiService.post<Account[]>('upsert_accounts', { accounts })
+      const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', { accounts })
+      setGlobalAccounts(upsertedAccounts)
       props.onHide()
     } catch (e) {
       console.log(e)
