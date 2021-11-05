@@ -56,8 +56,9 @@ const ModalDebitCredit = (props: Props) => {
       if (ids.length) {
         await apiService.post('delete_accounts', { id_accounts: ids })
       }
-      const upsertAccounts = accounts.filter((account) => !account.is_del)
-      const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', { accounts: upsertAccounts })
+      const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', {
+        accounts: accounts.filter((account) => !account.is_del),
+      })
       setGlobalAccounts(upsertedAccounts)
       props.onHide()
     } catch (e) {
