@@ -159,6 +159,7 @@ const ModalDebitCredit = (props: Props) => {
                         <input
                           type="text"
                           className="form-control w-full"
+                          placeholder="内容"
                           value={account.content || ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
@@ -173,10 +174,11 @@ const ModalDebitCredit = (props: Props) => {
                         <input
                           type="text"
                           className="form-control text-right w-[200px]"
-                          value={account.debit !== null ? account.debit.toLocaleString() : ''}
+                          placeholder="¥0,000"
+                          value={account.debit !== null ? `¥${account.debit.toLocaleString()}` : ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
-                              const value = e.target.value.replaceAll(',', '')
+                              const value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
                               if (!value) {
                                 accounts[i].debit = null
                                 return [...accounts]
@@ -196,10 +198,11 @@ const ModalDebitCredit = (props: Props) => {
                         <input
                           type="text"
                           className="form-control text-right w-[200px]"
-                          value={account.credit !== null ? account.credit.toLocaleString() : ''}
+                          placeholder="¥0,000"
+                          value={account.credit !== null ? `¥${account.credit.toLocaleString()}` : ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
-                              const value = e.target.value.replaceAll(',', '')
+                              const value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
                               if (!value) {
                                 accounts[i].credit = null
                                 return [...accounts]
