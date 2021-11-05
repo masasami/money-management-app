@@ -28,6 +28,15 @@
   @apply flex-col;
 }
 
+/* ボタン */
+.btn {
+  @apply p-2;
+  @apply rounded;
+  @apply text-base;
+  @apply flex;
+  @apply items-center;
+}
+
 /* メインボタン */
 .btn-main {
   @apply text-white;
