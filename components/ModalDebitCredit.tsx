@@ -48,7 +48,7 @@ const ModalDebitCredit = (props: Props) => {
   }, [])
 
   // 勘定一覧を更新しグローバルにセット
-  const onClickSave = useCallback(async () => {
+  const save = useCallback(async () => {
     try {
       const ids = accounts
         .filter((account) => account.is_del && account.id_account)
@@ -242,7 +242,7 @@ const ModalDebitCredit = (props: Props) => {
             <span className="ml-1">戻る</span>
           </button>
 
-          <button className="btn-main ml-3" onClick={() => onClickSave()}>
+          <button className="btn-main ml-3" onClick={save}>
             <AiOutlineCheck />
             <span className="ml-1">保存</span>
           </button>
