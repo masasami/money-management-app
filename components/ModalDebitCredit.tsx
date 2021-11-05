@@ -24,7 +24,7 @@ const ModalDebitCredit = (props: Props) => {
 
   const setGlobalAccounts = useSetRecoilState(accountsState)
   const [accounts, setAccounts] = useState<Account[]>(
-    props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit === null, is_del: false }))
+    props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit !== null, is_del: false }))
   )
   const [tags, setTags] = useState<Tag[]>([])
 
