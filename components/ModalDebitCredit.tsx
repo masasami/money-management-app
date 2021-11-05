@@ -9,7 +9,7 @@ import { Account } from 'interfaces/account'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
 
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useRecoilState } from 'recoil'
 import { accountsState, userState } from 'lib/atoms'
 
 type Props = {
@@ -22,7 +22,7 @@ const ModalDebitCredit = (props: Props) => {
   const user = useRecoilValue(userState)
   if (!user) return null
 
-  const setGlobalAccounts = useSetRecoilState(accountsState)
+  const [globalAccounts, setGlobalAccounts] = useRecoilState(accountsState)
   const [accounts, setAccounts] = useState<Account[]>(
     props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit !== null, is_del: false }))
   )
@@ -59,7 +59,27 @@ const ModalDebitCredit = (props: Props) => {
       const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', {
         accounts: accounts.filter((account) => !account.is_del),
       })
-      setGlobalAccounts(upsertedAccounts)
+
+      // 削除されていないものを抽出
+      const filteredGlobalAccounts = globalAccounts.filter((globalAccount) => {
+        for (const id of ids) {
+          if (id === globalAccount.id_account) {
+            return false
+          }
+        }
+        return true
+      })
+      for (let i = 0; i < upsertedAccounts.length; i++) {
+        const index = filteredGlobalAccounts.findIndex((ga) => ga.id_account === upsertedAccounts[i].id_account)
+        // マッチするIDがあれば更新扱いのため代入
+        // マッチするIDがなければ新規作成扱いのためpushで追加
+        if (index >= 0) {
+          filteredGlobalAccounts[index] = upsertedAccounts[i]
+        } else {
+          filteredGlobalAccounts.push(upsertedAccounts[i])
+        }
+      }
+      setGlobalAccounts(filteredGlobalAccounts)
       props.onHide()
     } catch (e) {
       console.log(e)
