@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { IoIosClose } from 'react-icons/io'
+import { MdDeleteForever } from 'react-icons/md'
 import { BsArrowReturnLeft } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
 
@@ -95,22 +96,25 @@ const ModalDebitCredit = (props: Props) => {
                         支出
                       </button>
                     )}
-                    <input
-                      type="text"
-                      className="form-control"
-                      value={account.content}
-                      onChange={(e) => {
-                        setAccounts((accounts) => {
-                          accounts[i].content = e.target.value
-                          return [...accounts]
-                        })
-                      }}
-                    />
+                    {/* 内容 */}
+                    <div className="flex-1">
+                      <input
+                        type="text"
+                        className="form-control w-full"
+                        value={account.content}
+                        onChange={(e) => {
+                          setAccounts((accounts) => {
+                            accounts[i].content = e.target.value
+                            return [...accounts]
+                          })
+                        }}
+                      />
+                    </div>
                     {/* 収入 */}
                     {account.is_debit && (
                       <input
                         type="text"
-                        className="form-control text-right"
+                        className="form-control text-right w-[200px]"
                         value={account.debit !== null ? account.debit.toLocaleString() : ''}
                         onChange={(e) => {
                           setAccounts((accounts) => {
@@ -133,7 +137,7 @@ const ModalDebitCredit = (props: Props) => {
                     {!account.is_debit && (
                       <input
                         type="text"
-                        className="form-control text-right"
+                        className="form-control text-right w-[200px]"
                         value={account.credit !== null ? account.credit.toLocaleString() : ''}
                         onChange={(e) => {
                           setAccounts((accounts) => {
@@ -155,10 +159,14 @@ const ModalDebitCredit = (props: Props) => {
 
                     {/* タグリスト */}
                     <select
-                      className="form-control max-w-[200px]"
+                      className="form-control w-[200px]"
                       value={String(account.id_tag)}
                       onChange={(e) => {
                         setAccounts((accounts) => {
+                          if (!e.target.value) {
+                            accounts[i].id_tag = null
+                            return [...accounts]
+                          }
                           accounts[i].id_tag = Number(e.target.value)
                           return [...accounts]
                         })
@@ -171,6 +179,17 @@ const ModalDebitCredit = (props: Props) => {
                         </option>
                       ))}
                     </select>
+
+                    <MdDeleteForever
+                      fontSize={32}
+                      className="text-red-500 cursor-pointer"
+                      onClick={() => {
+                        setAccounts((accounts) => {
+                          accounts[i].is_del = true
+                          return [...accounts]
+                        })
+                      }}
+                    />
                   </div>
                 </li>
               )
