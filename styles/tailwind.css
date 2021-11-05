@@ -19,7 +19,7 @@
 }
 .modal-screen {
   @apply w-[90%];
-  @apply max-w-[500px];
+  @apply max-w-[800px];
   @apply h-[80%];
   @apply max-h-[800px];
   @apply bg-white;
@@ -48,4 +48,12 @@
   @apply text-base;
   @apply flex;
   @apply items-center;
+}
+
+/* 入力欄（input, select等） */
+.form-control {
+  @apply border;
+  @apply border-gray-300;
+  @apply rounded;
+  @apply p-2;
 }
