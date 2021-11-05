@@ -136,8 +136,8 @@ const ModalDebitCredit = (props: Props) => {
             {accounts.map((account, i) => {
               return (
                 !account.is_del && (
-                  <li key={i} className="form-control mb-3 last:mb-0">
-                    <div className="md:flex md:items-center">
+                  <li key={i} className="border border-gray-500 rounded p-2 mb-3 last:mb-0">
+                    <div className="md:flex md:items-center relative">
                       {/* 収入ボタン */}
                       {account.is_debit && (
                         <button
@@ -190,7 +190,7 @@ const ModalDebitCredit = (props: Props) => {
                       {account.is_debit && (
                         <input
                           type="text"
-                          className={`border rounded p-2 text-right w-[200px] ${
+                          className={`border rounded p-2 text-right w-full md:w-[200px] ${
                             account.debit ? 'border-gray-300' : 'border-red-500'
                           }`}
                           placeholder="¥0,000"
@@ -216,7 +216,7 @@ const ModalDebitCredit = (props: Props) => {
                       {!account.is_debit && (
                         <input
                           type="text"
-                          className={`border rounded p-2 text-right w-[200px] ${
+                          className={`border rounded p-2 text-right w-full md:w-[200px] ${
                             account.credit ? 'border-gray-300' : 'border-red-500'
                           }`}
                           placeholder="¥0,000"
@@ -241,7 +241,7 @@ const ModalDebitCredit = (props: Props) => {
 
                       {/* タグリスト */}
                       <select
-                        className="form-control w-[200px]"
+                        className="form-control w-full md:w-[200px]"
                         value={String(account.id_tag)}
                         onChange={(e) => {
                           setAccounts((accounts) => {
@@ -264,7 +264,7 @@ const ModalDebitCredit = (props: Props) => {
 
                       <MdDeleteForever
                         fontSize={32}
-                        className="text-red-500 cursor-pointer"
+                        className="text-red-500 cursor-pointer absolute top-0 right-0 md:relative"
                         onClick={() => {
                           setAccounts((accounts) => {
                             accounts[i].is_del = true
