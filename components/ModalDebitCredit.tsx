@@ -27,6 +27,7 @@ const ModalDebitCredit = (props: Props) => {
     props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit !== null, is_del: false }))
   )
   const [tags, setTags] = useState<Tag[]>([])
+  const [isValid, setIsValid] = useState(true)
 
   const addAccount = useCallback((isDebit: boolean) => {
     setAccounts((accounts) => [
@@ -95,6 +96,19 @@ const ModalDebitCredit = (props: Props) => {
       setTags(tags)
     })()
   }, [])
+
+  useEffect(() => {
+    // 金額の入力判定
+    if (
+      accounts
+        .filter((account) => !account.is_del)
+        .every((account) => (account.is_debit && account.debit) || (!account.is_debit && account.credit))
+    ) {
+      setIsValid(true)
+    } else {
+      setIsValid(false)
+    }
+  }, [accounts])
 
   return (
     <div className="modal-grayout">
@@ -176,7 +190,9 @@ const ModalDebitCredit = (props: Props) => {
                       {account.is_debit && (
                         <input
                           type="text"
-                          className="form-control text-right w-[200px]"
+                          className={`border rounded p-2 text-right w-[200px] ${
+                            account.debit ? 'border-gray-300' : 'border-red-500'
+                          }`}
                           placeholder="¥0,000"
                           value={account.debit !== null ? `¥${account.debit.toLocaleString()}` : ''}
                           onChange={(e) => {
@@ -200,7 +216,9 @@ const ModalDebitCredit = (props: Props) => {
                       {!account.is_debit && (
                         <input
                           type="text"
-                          className="form-control text-right w-[200px]"
+                          className={`border rounded p-2 text-right w-[200px] ${
+                            account.credit ? 'border-gray-300' : 'border-red-500'
+                          }`}
                           placeholder="¥0,000"
                           value={account.credit !== null ? `¥${account.credit.toLocaleString()}` : ''}
                           onChange={(e) => {
@@ -269,7 +287,11 @@ const ModalDebitCredit = (props: Props) => {
             <span className="ml-1">戻る</span>
           </button>
 
-          <button className="btn-main ml-3" onClick={save}>
+          <button
+            className={`btn text-white ml-3 ${isValid ? 'bg-blue-500' : 'bg-gray-300'}`}
+            onClick={save}
+            disabled={!isValid}
+          >
             <AiOutlineCheck />
             <span className="ml-1">保存</span>
           </button>
