@@ -45,6 +45,8 @@ const ModalDebitCredit = (props: Props) => {
       },
       ...accounts,
     ])
+    // 追加された入力欄にフォーカスを当てる
+    setTimeout(() => document.getElementById('content0')?.focus(), 0)
   }, [])
 
   // 勘定一覧を更新しグローバルにセット
@@ -160,6 +162,7 @@ const ModalDebitCredit = (props: Props) => {
                           type="text"
                           className="form-control w-full"
                           placeholder="内容"
+                          id={`content${i}`}
                           value={account.content || ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
