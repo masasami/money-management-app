@@ -24,7 +24,7 @@ const ModalDebitCredit = (props: Props) => {
 
   const setGlobalAccounts = useSetRecoilState(accountsState)
   const [accounts, setAccounts] = useState<Account[]>(
-    props.accounts.map<Account>((account) => ({ ...account, is_debit: !!account.debit }))
+    props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit === null, is_del: false }))
   )
   const [tags, setTags] = useState<Tag[]>([])
 
@@ -34,13 +34,14 @@ const ModalDebitCredit = (props: Props) => {
         id_account: 0,
         id_user: user.id_user,
         id_tag: null,
-        content: '',
+        content: null,
         debit: null,
         credit: null,
         dt_account: moment(new Date(props.datetimeAccount)).format('YYYY-MM-DD'),
-        dt_create: '',
-        dt_update: '',
+        dt_create: null,
+        dt_update: null,
         is_debit: isDebit,
+        is_del: false,
       },
       ...accounts,
     ])
@@ -49,7 +50,14 @@ const ModalDebitCredit = (props: Props) => {
   // 勘定一覧を更新しグローバルにセット
   const onClickSave = useCallback(async () => {
     try {
-      const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', { accounts })
+      const ids = accounts
+        .filter((account) => account.is_del && account.id_account)
+        .map((account) => account.id_account)
+      if (ids.length) {
+        await apiService.post('delete_accounts', { id_accounts: ids })
+      }
+      const upsertAccounts = accounts.filter((account) => !account.is_del)
+      const upsertedAccounts = await apiService.post<Account[]>('upsert_accounts', { accounts: upsertAccounts })
       setGlobalAccounts(upsertedAccounts)
       props.onHide()
     } catch (e) {
@@ -90,136 +98,138 @@ const ModalDebitCredit = (props: Props) => {
           <ul>
             {accounts.map((account, i) => {
               return (
-                <li key={i} className="form-control mb-3 last:mb-0">
-                  <div className="md:flex md:items-center">
-                    {/* 収入ボタン */}
-                    {account.is_debit && (
-                      <button
-                        className="btn text-white bg-green-500"
-                        onClick={() => {
-                          setAccounts((accounts) => {
-                            accounts[i].is_debit = false
-                            accounts[i].debit = null
-                            accounts[i].credit = null
-                            return [...accounts]
-                          })
-                        }}
-                      >
-                        収入
-                      </button>
-                    )}
-                    {/* 支出ボタン */}
-                    {!account.is_debit && (
-                      <button
-                        className="btn text-white bg-red-500"
-                        onClick={() => {
-                          setAccounts((accounts) => {
-                            accounts[i].is_debit = true
-                            accounts[i].debit = null
-                            accounts[i].credit = null
-                            return [...accounts]
-                          })
-                        }}
-                      >
-                        支出
-                      </button>
-                    )}
-                    {/* 内容 */}
-                    <div className="flex-1">
-                      <input
-                        type="text"
-                        className="form-control w-full"
-                        value={account.content || ''}
+                !account.is_del && (
+                  <li key={i} className="form-control mb-3 last:mb-0">
+                    <div className="md:flex md:items-center">
+                      {/* 収入ボタン */}
+                      {account.is_debit && (
+                        <button
+                          className="btn text-white bg-green-500"
+                          onClick={() => {
+                            setAccounts((accounts) => {
+                              accounts[i].is_debit = false
+                              accounts[i].debit = null
+                              accounts[i].credit = null
+                              return [...accounts]
+                            })
+                          }}
+                        >
+                          収入
+                        </button>
+                      )}
+                      {/* 支出ボタン */}
+                      {!account.is_debit && (
+                        <button
+                          className="btn text-white bg-red-500"
+                          onClick={() => {
+                            setAccounts((accounts) => {
+                              accounts[i].is_debit = true
+                              accounts[i].debit = null
+                              accounts[i].credit = null
+                              return [...accounts]
+                            })
+                          }}
+                        >
+                          支出
+                        </button>
+                      )}
+                      {/* 内容 */}
+                      <div className="flex-1">
+                        <input
+                          type="text"
+                          className="form-control w-full"
+                          value={account.content || ''}
+                          onChange={(e) => {
+                            setAccounts((accounts) => {
+                              accounts[i].content = e.target.value
+                              return [...accounts]
+                            })
+                          }}
+                        />
+                      </div>
+                      {/* 収入 */}
+                      {account.is_debit && (
+                        <input
+                          type="text"
+                          className="form-control text-right w-[200px]"
+                          value={account.debit !== null ? account.debit.toLocaleString() : ''}
+                          onChange={(e) => {
+                            setAccounts((accounts) => {
+                              const value = e.target.value.replaceAll(',', '')
+                              if (!value) {
+                                accounts[i].debit = null
+                                return [...accounts]
+                              }
+
+                              const debit = Number(value)
+                              if (isNaN(debit)) return [...accounts]
+
+                              accounts[i].debit = debit
+                              return [...accounts]
+                            })
+                          }}
+                        />
+                      )}
+                      {/* 支出 */}
+                      {!account.is_debit && (
+                        <input
+                          type="text"
+                          className="form-control text-right w-[200px]"
+                          value={account.credit !== null ? account.credit.toLocaleString() : ''}
+                          onChange={(e) => {
+                            setAccounts((accounts) => {
+                              const value = e.target.value.replaceAll(',', '')
+                              if (!value) {
+                                accounts[i].credit = null
+                                return [...accounts]
+                              }
+
+                              const credit = Number(value)
+                              if (isNaN(credit)) return [...accounts]
+
+                              accounts[i].credit = credit
+                              return [...accounts]
+                            })
+                          }}
+                        />
+                      )}
+
+                      {/* タグリスト */}
+                      <select
+                        className="form-control w-[200px]"
+                        value={String(account.id_tag)}
                         onChange={(e) => {
                           setAccounts((accounts) => {
-                            accounts[i].content = e.target.value
+                            if (!e.target.value) {
+                              accounts[i].id_tag = null
+                              return [...accounts]
+                            }
+                            accounts[i].id_tag = Number(e.target.value)
+                            return [...accounts]
+                          })
+                        }}
+                      >
+                        <option value=""></option>
+                        {tags.map((tag, i) => (
+                          <option key={i} value={tag.id_tag}>
+                            {tag.title}
+                          </option>
+                        ))}
+                      </select>
+
+                      <MdDeleteForever
+                        fontSize={32}
+                        className="text-red-500 cursor-pointer"
+                        onClick={() => {
+                          setAccounts((accounts) => {
+                            accounts[i].is_del = true
                             return [...accounts]
                           })
                         }}
                       />
                     </div>
-                    {/* 収入 */}
-                    {account.is_debit && (
-                      <input
-                        type="text"
-                        className="form-control text-right w-[200px]"
-                        value={account.debit !== null ? account.debit.toLocaleString() : ''}
-                        onChange={(e) => {
-                          setAccounts((accounts) => {
-                            const value = e.target.value.replaceAll(',', '')
-                            if (!value) {
-                              accounts[i].debit = null
-                              return [...accounts]
-                            }
-
-                            const debit = Number(value)
-                            if (isNaN(debit)) return [...accounts]
-
-                            accounts[i].debit = debit
-                            return [...accounts]
-                          })
-                        }}
-                      />
-                    )}
-                    {/* 支出 */}
-                    {!account.is_debit && (
-                      <input
-                        type="text"
-                        className="form-control text-right w-[200px]"
-                        value={account.credit !== null ? account.credit.toLocaleString() : ''}
-                        onChange={(e) => {
-                          setAccounts((accounts) => {
-                            const value = e.target.value.replaceAll(',', '')
-                            if (!value) {
-                              accounts[i].credit = null
-                              return [...accounts]
-                            }
-
-                            const credit = Number(value)
-                            if (isNaN(credit)) return [...accounts]
-
-                            accounts[i].credit = credit
-                            return [...accounts]
-                          })
-                        }}
-                      />
-                    )}
-
-                    {/* タグリスト */}
-                    <select
-                      className="form-control w-[200px]"
-                      value={String(account.id_tag)}
-                      onChange={(e) => {
-                        setAccounts((accounts) => {
-                          if (!e.target.value) {
-                            accounts[i].id_tag = null
-                            return [...accounts]
-                          }
-                          accounts[i].id_tag = Number(e.target.value)
-                          return [...accounts]
-                        })
-                      }}
-                    >
-                      <option value=""></option>
-                      {tags.map((tag, i) => (
-                        <option key={i} value={tag.id_tag}>
-                          {tag.title}
-                        </option>
-                      ))}
-                    </select>
-
-                    <MdDeleteForever
-                      fontSize={32}
-                      className="text-red-500 cursor-pointer"
-                      onClick={() => {
-                        setAccounts((accounts) => {
-                          accounts[i].is_del = true
-                          return [...accounts]
-                        })
-                      }}
-                    />
-                  </div>
-                </li>
+                  </li>
+                )
               )
             })}
           </ul>

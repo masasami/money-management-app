@@ -5,9 +5,9 @@ export type Account = {
   content: string | null
   debit: number | null
   credit: number | null
-  dt_account: string
-  dt_create: string
-  dt_update: string
+  dt_account: string | null
+  dt_create: string | null
+  dt_update: string | null
 
   title?: string
 
