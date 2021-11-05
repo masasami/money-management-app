@@ -25,9 +25,14 @@ const ModalDebitCredit = (props: Props) => {
   )
   const [tags, setTags] = useState<Tag[]>([])
 
-  const onClickOk = useCallback(() => {
-    props.onHide()
-  }, [])
+  const onClickOk = useCallback(async () => {
+    try {
+      await apiService.post<Account[]>('upsert_accounts', { accounts })
+      props.onHide()
+    } catch (e) {
+      console.log(e)
+    }
+  }, [accounts])
 
   useEffect(() => {
     console.log(props.accounts)
