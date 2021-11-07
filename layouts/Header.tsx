@@ -34,7 +34,7 @@ const Header = (props: Props) => {
       <VscAccount fontSize={32} className="text-white ml-auto cursor-pointer" onClick={() => setIsOpenMenu(true)} />
       {isOpenMenu && (
         <div className="fixed top-0 left-0 w-screen h-screen bg-transparent z-50" onClick={() => setIsOpenMenu(false)}>
-          <div className="absolute top-[60px] right-0 py-2 px-4 bg-white rounded">
+          <div className="absolute top-[60px] right-0 py-2 px-4 bg-white border border-gray-300 rounded">
             <button className="cursor-pointer" onClick={logout}>
               ログアウト
             </button>
