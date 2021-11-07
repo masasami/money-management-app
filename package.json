@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "postcss styles/tailwind.css -o styles/tailwind-bundle.css && next dev",
+    "dev": "next dev",
     "build": "postcss styles/tailwind.css -o styles/tailwind-bundle.css && next build",
     "build:css": "TAILWIND_MODE=watch postcss styles/tailwind.css -o styles/tailwind-bundle.css -w",
     "start": "next start",
