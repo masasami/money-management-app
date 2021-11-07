@@ -148,7 +148,7 @@ const BigCalendar = (props: Props) => {
                           {totalDebit.toLocaleString()}
                         </div>
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
-                          {totalCredit * -(1).toLocaleString()}
+                          {(totalCredit * -1).toLocaleString()}
                         </div>
                       </div>
                     )
