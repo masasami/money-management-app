@@ -199,7 +199,10 @@ const ModalDebitCredit = (props: Props) => {
                           value={account.debit !== null ? `¥${account.debit.toLocaleString()}` : ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
-                              const value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
+                              let value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
+                              value = value.replace(/[！-～]/g, (s) => {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0)
+                              })
                               if (!value) {
                                 accounts[i].debit = null
                                 return [...accounts]
@@ -225,7 +228,10 @@ const ModalDebitCredit = (props: Props) => {
                           value={account.credit !== null ? `¥${account.credit.toLocaleString()}` : ''}
                           onChange={(e) => {
                             setAccounts((accounts) => {
-                              const value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
+                              let value = e.target.value.replaceAll(',', '').replaceAll('¥', '')
+                              value = value.replace(/[！-～]/g, (s) => {
+                                return String.fromCharCode(s.charCodeAt(0) - 0xfee0)
+                              })
                               if (!value) {
                                 accounts[i].credit = null
                                 return [...accounts]
