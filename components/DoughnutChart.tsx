@@ -7,34 +7,40 @@ type Props = {
 }
 
 const DoughnutChart = (props: Props) => {
-  const [filteredAccounts, setFilteredAccounts] = useState<Account[]>([])
+  const [titles, setTitles] = useState<string[]>([])
+  const [colorCodes, setColorCodes] = useState<string[]>([])
   const [countList, setCountList] = useState<number[]>([])
 
   useEffect(() => {
-    // タグIDの重複を排除
-    const map = new Map(props.accounts.map((account) => [account.id_tag, account]))
-    const array = Array.from(map.values())
-    setFilteredAccounts(array)
-
-    // タグごとに件数をカウント
-    const obj: { [id_tag: string]: number } = {}
+    // タグのタイトル、カラーコードの重複を排除
+    const titleObject: { [id: string]: string } = {}
+    const colorCodeObject: { [id: string]: string } = {}
+    const countObject: { [id: string]: number } = {}
     for (const account of props.accounts) {
-      const key = String(account.id_tag)
-      obj[key] = (obj[key] || 0) + 1
+      const id = account.id_tag
+      const key = String(id)
+      titleObject[key] = id ? account.title : 'タグ未設定'
+      colorCodeObject[key] = id ? account.color_code : '00000050'
+      countObject[key] = (countObject[key] || 0) + 1
     }
-    const count = Object.values(obj)
-    setCountList(count)
+    // 重複を排除したものを配列化
+    const titles = Object.values(titleObject)
+    const colorCodes = Object.values(colorCodeObject)
+    const countList = Object.values(countObject)
+    setTitles(titles)
+    setColorCodes(colorCodes)
+    setCountList(countList)
   }, [props.accounts])
 
   return (
     <Doughnut
       data={{
-        labels: filteredAccounts.map((account) => account.title),
+        labels: titles,
         datasets: [
           {
             label: 'データ',
             data: countList,
-            backgroundColor: filteredAccounts.map((account) => '#' + account.color_code),
+            backgroundColor: colorCodes.map((colorCode) => '#' + colorCode),
           },
         ],
       }}
