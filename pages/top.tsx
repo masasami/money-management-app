@@ -30,9 +30,7 @@ const Top: NextPage = () => {
       const start = moment(new Date(year, month - 1, 1)).format('YYYY-MM-DD 00:00:00')
       const end = moment(new Date(year, month, 0)).format('YYYY-MM-DD 23:59:59')
 
-      const accounts = await apiService.get<Account[]>(
-        `get_accounts_by_id_user/${user.id_user}?start=${start}&end=${end}`
-      )
+      const accounts = await apiService.get<Account[]>(`get_accounts_by_id_user?start=${start}&end=${end}`)
       setGlobalAccounts(accounts)
     })()
   }, [month])

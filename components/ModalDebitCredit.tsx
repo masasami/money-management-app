@@ -41,6 +41,8 @@ const ModalDebitCredit = (props: Props) => {
         dt_account: moment(new Date(props.datetimeAccount)).format('YYYY-MM-DD'),
         dt_create: null,
         dt_update: null,
+        title: '',
+        color_code: '',
         is_debit: isDebit,
         is_del: false,
       },
@@ -92,7 +94,7 @@ const ModalDebitCredit = (props: Props) => {
   useEffect(() => {
     console.log(props.accounts)
     ;(async () => {
-      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user/${user.id_user}`)
+      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user`)
       setTags(tags)
     })()
   }, [])

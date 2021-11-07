@@ -68,7 +68,7 @@ const TagList: NextPage = () => {
 
   useEffect(() => {
     ;(async () => {
-      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user/${user.id_user}`)
+      const tags = await apiService.get<Tag[]>(`get_tags_by_id_user`)
       setTags(
         tags.map((tag) => ({
           ...tag,
