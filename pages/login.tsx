@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import Router from 'next/router'
 import { useState } from 'react'
 import { AiOutlineAccountBook } from 'react-icons/ai'
@@ -48,7 +49,7 @@ const Login: NextPage = () => {
         </div>
       )}
 
-      <section className="w-[90vw] max-w-[320px] p-5 bg-gray-50 border border-gray-300 rounded">
+      <section className="w-[90vw] max-w-[320px] p-5 bg-gray-50 border border-gray-300 rounded mb-4">
         <h2>ログインID</h2>
         <input
           type="text"
@@ -71,6 +72,12 @@ const Login: NextPage = () => {
           ログイン
         </button>
       </section>
+
+      <div className="w-[90vw] max-w-[320px] p-4 flex justify-center bg-gray-50 border border-gray-300 rounded">
+        <Link href="signup">
+          <a className="underline text-blue-500">ユーザー作成</a>
+        </Link>
+      </div>
     </div>
   )
 }
