@@ -9,8 +9,8 @@ export type Account = {
   dt_create: string | null
   dt_update: string | null
 
-  title?: string
-  color_code?: string
+  title: string
+  color_code: string
 
   is_debit?: boolean
   is_del?: boolean

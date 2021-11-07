@@ -6,6 +6,7 @@ import moment from 'moment'
 import Layout from 'layouts/Layout'
 import BigCalendar from 'components/BigCalendar'
 import DoughnutChart from 'components/DoughnutChart'
+import TopTagList from 'components/TopTagList'
 import { Account } from 'interfaces/account'
 import { apiService } from 'lib/api.service'
 
@@ -72,16 +73,7 @@ const Top: NextPage = () => {
           </div>
 
           {/* タグ一覧 */}
-          <ul className="h-[150px] p-3 overflow-y-scroll flex-1 scrollbar-y">
-            {['食費', '娯楽費', '水道・光熱費', '特別費', '習い事費', '趣味', '長い名前長い名前長い名前'].map(
-              (tag, i) => (
-                <li key={i} className="mb-2 flex items-center">
-                  <RiCheckboxBlankFill />
-                  <span className="flex-1 ellipsis">{tag}</span>
-                </li>
-              )
-            )}
-          </ul>
+          <TopTagList accounts={globalAccounts} />
 
           {/* 収支 */}
           <div className="w-full flex items-center">
