@@ -55,7 +55,7 @@ const TagList: NextPage = () => {
     setTags((tags) =>
       tags.map((tag) => {
         if (tag.id_tag === updatedTag.id_tag) return { ...updatedTag, editing: false }
-        return { ...tag, editing: false }
+        return tag
       })
     )
   }, [])
