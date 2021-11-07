@@ -68,7 +68,7 @@ const Top: NextPage = () => {
         <div className="w-full pt-2 flex items-center flex-wrap mb-2">
           {/* ドーナツチャート */}
           <div>
-            <DoughnutChart />
+            <DoughnutChart accounts={globalAccounts} />
           </div>
 
           {/* タグ一覧 */}

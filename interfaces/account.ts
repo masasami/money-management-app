@@ -10,6 +10,7 @@ export type Account = {
   dt_update: string | null
 
   title?: string
+  color_code?: string
 
   is_debit?: boolean
   is_del?: boolean
