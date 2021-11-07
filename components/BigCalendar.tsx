@@ -145,10 +145,10 @@ const BigCalendar = (props: Props) => {
                         <span className="text-xs md:text-2xl absolute top-0 left-0">{day}</span>
 
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-blue-500 ellipsis mt-auto">
-                          {totalDebit.toLocaleString()}
+                          {totalDebit ? totalDebit.toLocaleString() : <span>&nbsp;</span>}
                         </div>
                         <div className="w-full md:pr-2 text-right text-xs md:text-2xl text-red-500 ellipsis">
-                          {(totalCredit * -1).toLocaleString()}
+                          {totalCredit ? (totalCredit * -1).toLocaleString() : <span>&nbsp;</span>}
                         </div>
                       </div>
                     )
