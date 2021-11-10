@@ -59,6 +59,16 @@ const Signup: NextPage = () => {
     if (password === password_re) return true
     return false
   }, [])
+  const validateEmail = useCallback(async () => {
+    try {
+      const user = await apiService.post('get_user_by_email', { email: getValues('email') })
+      // 合致するユーザーが存在したらエラー（既に使用されているメールアドレスのため）
+      if (user) return false
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+  }, [])
 
   // 有効な日付か判定
   useEffect(() => {
@@ -147,10 +157,11 @@ const Signup: NextPage = () => {
           type="text"
           placeholder="mail@example.com"
           className={inputClassName('email')}
-          {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
+          {...register('email', { required: true, pattern: /^\S+@\S+$/i, validate: validateEmail })}
         />
         {errors.email?.type === 'required' && <ErrorMessage message="メールアドレスを入力してください" />}
         {errors.email?.type === 'pattern' && <ErrorMessage message="有効なメールアドレスを入力してください" />}
+        {errors.email?.type === 'validate' && <ErrorMessage message="そのメールアドレスは既に使用されています" />}
       </div>
 
       {/* 性別 */}
