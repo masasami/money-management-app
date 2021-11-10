@@ -19,6 +19,7 @@ type FormData = {
   dt_birth_month: string
   dt_birth_day: string
 }
+const ErrorMessage = (props: { message: string }) => <p className="text-red-500">{props.message}</p>
 
 const Signup: NextPage = () => {
   const inputClassName = (property: keyof FormData) => {
@@ -77,7 +78,7 @@ const Signup: NextPage = () => {
           className={inputClassName('name')}
           {...register('name', { required: true })}
         />
-        {errors.name && <p className="text-red-500">お名前を入力してください</p>}
+        {errors.name && <ErrorMessage message="お名前を入力してください" />}
       </div>
 
       {/* フリガナ */}
@@ -89,8 +90,8 @@ const Signup: NextPage = () => {
           className={inputClassName('kana')}
           {...register('kana', { required: true, pattern: /^[ァ-ヶー]*$/ })}
         />
-        {errors.kana?.type === 'required' && <p className="text-red-500">フリガナを入力してください</p>}
-        {errors.kana?.type === 'pattern' && <p className="text-red-500">フリガナは全角カナで入力してください</p>}
+        {errors.kana?.type === 'required' && <ErrorMessage message="フリガナを入力してください" />}
+        {errors.kana?.type === 'pattern' && <ErrorMessage message="フリガナは全角カナで入力してください" />}
       </div>
 
       {/* ログインID */}
@@ -101,10 +102,8 @@ const Signup: NextPage = () => {
           className={inputClassName('login_id')}
           {...register('login_id', { required: true, pattern: /^[0-9a-zA-Z]+$/ })}
         />
-        {errors.login_id?.type === 'required' && <p className="text-red-500">ログインIDを入力してください</p>}
-        {errors.login_id?.type === 'pattern' && (
-          <p className="text-red-500">ログインIDは半角英数字で入力してください</p>
-        )}
+        {errors.login_id?.type === 'required' && <ErrorMessage message="ログインIDを入力してください" />}
+        {errors.login_id?.type === 'pattern' && <ErrorMessage message="ログインIDは半角英数字で入力してください" />}
       </div>
 
       {/* パスワード */}
@@ -115,10 +114,8 @@ const Signup: NextPage = () => {
           className={inputClassName('password')}
           {...register('password', { required: true, minLength: 8 })}
         />
-        {errors.password?.type === 'required' && <p className="text-red-500">パスワードを入力してください</p>}
-        {errors.password?.type === 'minLength' && (
-          <p className="text-red-500">パスワードは8文字以上で入力してください</p>
-        )}
+        {errors.password?.type === 'required' && <ErrorMessage message="パスワードを入力してください" />}
+        {errors.password?.type === 'minLength' && <ErrorMessage message="パスワードは8文字以上で入力してください" />}
       </div>
 
       {/* パスワード（再入力） */}
@@ -129,7 +126,7 @@ const Signup: NextPage = () => {
           className={inputClassName('password_re')}
           {...register('password_re', { validate: validatePassword })}
         />
-        {errors.password_re?.type === 'validate' && <p className="text-red-500">パスワードが一致しません</p>}
+        {errors.password_re?.type === 'validate' && <ErrorMessage message="パスワードが一致しません" />}
       </div>
 
       {/* メールアドレス */}
@@ -141,8 +138,8 @@ const Signup: NextPage = () => {
           className={inputClassName('email')}
           {...register('email', { required: true, pattern: /^\S+@\S+$/i })}
         />
-        {errors.email?.type === 'required' && <p className="text-red-500">メールアドレスを入力してください</p>}
-        {errors.email?.type === 'pattern' && <p className="text-red-500">有効なメールアドレスを入力してください</p>}
+        {errors.email?.type === 'required' && <ErrorMessage message="メールアドレスを入力してください" />}
+        {errors.email?.type === 'pattern' && <ErrorMessage message="有効なメールアドレスを入力してください" />}
       </div>
 
       {/* 性別 */}
@@ -189,7 +186,7 @@ const Signup: NextPage = () => {
           日
         </div>
 
-        {errors.dt_birth && <p className="text-red-500">存在する日付で入力してください</p>}
+        {errors.dt_birth && <ErrorMessage message="存在する日付で入力してください" />}
       </div>
 
       <div className="flex justify-end mb-4">
