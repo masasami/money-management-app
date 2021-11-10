@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { apiService } from 'lib/api.service'
 import { User } from 'interfaces/user'
@@ -43,12 +43,22 @@ const Signup: NextPage = () => {
       console.log(e)
     }
   }
-  const validatePassword = () => {
+  const validateLoginId = useCallback(async () => {
+    try {
+      const user = await apiService.post('get_user_by_login_id', { login_id: getValues('login_id') })
+      // 合致するユーザーが存在したらエラー（既に使用されているログインIDのため）
+      if (user) return false
+      return true
+    } catch (e) {
+      console.log(e)
+    }
+  }, [])
+  const validatePassword = useCallback(() => {
     const password = getValues('password')
     const password_re = getValues('password_re')
     if (password === password_re) return true
     return false
-  }
+  }, [])
 
   // 有効な日付か判定
   useEffect(() => {
@@ -100,10 +110,11 @@ const Signup: NextPage = () => {
         <input
           type="text"
           className={inputClassName('login_id')}
-          {...register('login_id', { required: true, pattern: /^[0-9a-zA-Z]+$/ })}
+          {...register('login_id', { required: true, pattern: /^[0-9a-zA-Z]+$/, validate: validateLoginId })}
         />
         {errors.login_id?.type === 'required' && <ErrorMessage message="ログインIDを入力してください" />}
         {errors.login_id?.type === 'pattern' && <ErrorMessage message="ログインIDは半角英数字で入力してください" />}
+        {errors.login_id?.type === 'validate' && <ErrorMessage message="そのログインIDは既に使用されています" />}
       </div>
 
       {/* パスワード */}
