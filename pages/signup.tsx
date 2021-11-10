@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { apiService } from 'lib/api.service'
 import { User } from 'interfaces/user'
@@ -28,6 +29,8 @@ const Signup: NextPage = () => {
     handleSubmit,
     watch,
     getValues,
+    setError,
+    clearErrors,
     formState: { errors },
   } = useForm<FormData>({ mode: 'onTouched' })
   const onSubmit = async (userDto: FormData) => {
@@ -45,6 +48,22 @@ const Signup: NextPage = () => {
     if (password === password_re) return true
     return false
   }
+
+  // 有効な日付か判定
+  useEffect(() => {
+    const year = getValues('dt_birth_year')
+    const month = getValues('dt_birth_month')
+    const day = getValues('dt_birth_day')
+    if (year.length !== 4) return
+    if (month.length !== 2) return
+    if (day.length !== 2) return
+    const date = new Date(Number(year), Number(month) - 1, Number(day))
+    if (date.getMonth() + 1 === Number(month)) {
+      clearErrors('dt_birth')
+      return
+    }
+    setError('dt_birth', { type: 'validate' })
+  }, [watch().dt_birth_year, watch().dt_birth_month, watch().dt_birth_day])
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="w-[90vw] max-w-[960px] mx-auto p-3">
@@ -169,6 +188,8 @@ const Signup: NextPage = () => {
           />
           日
         </div>
+
+        {errors.dt_birth && <p className="text-red-500">存在する日付で入力してください</p>}
       </div>
 
       <div className="flex justify-end mb-4">
