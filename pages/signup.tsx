@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Router from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { apiService } from 'lib/api.service'
@@ -50,6 +51,8 @@ const Signup: NextPage = () => {
     try {
       const res = await apiService.post<User>('create_user', userDto)
       console.log(res)
+      alert('ユーザーを新規登録しました')
+      Router.push('login')
     } catch (e) {
       console.log(e)
     }
