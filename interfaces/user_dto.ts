@@ -1,5 +1,4 @@
-export type User = {
-  id_user: number
+export type UserDto = {
   name: string
   kana: string
   gender: string
@@ -8,6 +7,4 @@ export type User = {
   login_id: string
   password: string
   dt_birth: string
-  dt_create: string
-  dt_update: string
 }

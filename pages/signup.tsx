@@ -3,11 +3,11 @@ import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { apiService } from 'lib/api.service'
 import { User } from 'interfaces/user'
+import { UserDto } from 'interfaces/user_dto'
 
 type FormData = {
   name: string
   kana: string
-  age: string
   gender: string
   email: string
   icon_name: string
@@ -34,8 +34,19 @@ const Signup: NextPage = () => {
     clearErrors,
     formState: { errors },
   } = useForm<FormData>({ mode: 'onTouched' })
-  const onSubmit = async (userDto: FormData) => {
-    console.log(userDto)
+  // ユーザーの新規登録
+  const onSubmit = async (formData: FormData) => {
+    const userDto: UserDto = {
+      name: formData.name,
+      kana: formData.kana,
+      gender: formData.gender,
+      email: formData.email,
+      icon_name: null,
+      login_id: formData.login_id,
+      password: formData.password,
+      dt_birth: `${formData.dt_birth_year}-${formData.dt_birth_month}-${formData.dt_birth_day}`,
+    }
+
     try {
       const res = await apiService.post<User>('create_user', userDto)
       console.log(res)
@@ -43,6 +54,7 @@ const Signup: NextPage = () => {
       console.log(e)
     }
   }
+  // ログインIDの重複判定
   const validateLoginId = useCallback(async () => {
     try {
       const user = await apiService.post('get_user_by_login_id', { login_id: getValues('login_id') })
@@ -53,12 +65,14 @@ const Signup: NextPage = () => {
       console.log(e)
     }
   }, [])
+  // パスワード、パスワード（再入力）が一致しているかを判定
   const validatePassword = useCallback(() => {
     const password = getValues('password')
     const password_re = getValues('password_re')
     if (password === password_re) return true
     return false
   }, [])
+  // メールアドレスの重複判定
   const validateEmail = useCallback(async () => {
     try {
       const user = await apiService.post('get_user_by_email', { email: getValues('email') })
