@@ -19,7 +19,7 @@ const Auth = (props: Props) => {
       } catch (e) {
         console.log(e)
         setUser(null)
-        props.route !== '/login' && props.route !== '/signup' && Router.push('login')
+        props.route !== '/login' && props.route !== '/signup' && Router.push('/login')
       }
     })()
   }, [])

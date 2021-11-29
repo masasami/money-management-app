@@ -52,7 +52,7 @@ const Signup: NextPage = () => {
       const res = await apiService.post<User>('create_user', userDto)
       console.log(res)
       alert('ユーザーを新規登録しました')
-      Router.push('login')
+      Router.push('/login')
     } catch (e) {
       console.log(e)
     }

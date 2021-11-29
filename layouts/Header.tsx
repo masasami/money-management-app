@@ -21,7 +21,7 @@ const Header = (props: Props) => {
     } catch (e) {
       console.log(e)
     } finally {
-      Router.push('login')
+      Router.push('/login')
     }
   }
   return (
