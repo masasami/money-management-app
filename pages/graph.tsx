@@ -8,18 +8,12 @@ import moment from 'moment'
 
 const Graph: NextPage = () => {
   const [data, setData] = useState<number[]>([])
-  const [label, setLabel] = useState<string>('')
   const [backgroundColor, setBackgroundColor] = useState<string[]>([])
   const [borderColor, setBorderColor] = useState<string[]>([])
-
   const [year, setYear] = useState(new Date().getFullYear())
 
-  const movePrev = useCallback(() => {
-    console.log('前の年へ')
-  }, [])
-  const moveNext = useCallback(() => {
-    console.log('次の年へ')
-  }, [])
+  const movePrev = useCallback(() => setYear(year - 1), [year])
+  const moveNext = useCallback(() => setYear(year + 1), [year])
 
   useEffect(() => {
     ;(async () => {
@@ -61,7 +55,6 @@ const Graph: NextPage = () => {
         setData(data)
         setBackgroundColor(backgroundColor)
         setBorderColor(borderColor)
-        setLabel(String(year))
       } catch (e) {
         console.log(e)
       }
@@ -72,7 +65,7 @@ const Graph: NextPage = () => {
     <Layout>
       <div className="w-full h-full flex flex-col p-2">
         <h1 className="w-full flex items-center md:text-2xl">
-          {label}年の収支
+          {year}年の収支
           <button className="ml-auto" onClick={movePrev}>
             ←前の年へ
           </button>
