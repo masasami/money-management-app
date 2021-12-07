@@ -2,6 +2,8 @@ import type { NextPage } from 'next'
 import Router from 'next/router'
 import { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
+
 import { apiService } from 'lib/api.service'
 import { User } from 'interfaces/user'
 import { UserDto } from 'interfaces/user_dto'
@@ -51,8 +53,9 @@ const Signup: NextPage = () => {
     try {
       const res = await apiService.post<User>('create_user', userDto)
       console.log(res)
-      alert('ユーザーを新規登録しました')
-      Router.push('/login')
+      toast.success('ユーザーを新規登録しました！', {
+        onOpen: () => Router.push('/login'),
+      })
     } catch (e) {
       console.log(e)
     }
