@@ -12,7 +12,7 @@ const Graph: NextPage = () => {
   const [backgroundColor, setBackgroundColor] = useState<string[]>([])
   const [borderColor, setBorderColor] = useState<string[]>([])
 
-  const [date, setDate] = useState(new Date())
+  const [year, setYear] = useState(new Date().getFullYear())
 
   const movePrev = useCallback(() => {
     console.log('前の年へ')
@@ -25,8 +25,8 @@ const Graph: NextPage = () => {
     ;(async () => {
       try {
         // 1年間のデータ取得
-        const start = moment(date).format('YYYY-01-01 00:00:00')
-        const end = moment(date).format('YYYY-12-31 23:59:59')
+        const start = `${year}-01-01 00:00:00`
+        const end = `${year}-12-31 23:59:59`
         const accounts = await apiService.get<Account[]>(`get_accounts_by_id_user?start=${start}&end=${end}`)
 
         const data = []
@@ -34,9 +34,8 @@ const Graph: NextPage = () => {
         const borderColor = []
         for (let i = 0; i < 12; i++) {
           // 1ヶ月ごとにフィルタリング
-          const d = new Date(date)
-          const start = moment(new Date(d.getFullYear(), i, 1)).format('YYYY-MM-DD 00:00:00')
-          const end = moment(new Date(d.getFullYear(), i + 1, 0)).format('YYYY-MM-DD 23:59:59')
+          const start = moment(new Date(year, i, 1)).format('YYYY-MM-DD 00:00:00')
+          const end = moment(new Date(year, i + 1, 0)).format('YYYY-MM-DD 23:59:59')
           const filteredAccounts = accounts.filter(
             (account) => start <= account.dt_account && account.dt_account <= end
           )
@@ -62,12 +61,12 @@ const Graph: NextPage = () => {
         setData(data)
         setBackgroundColor(backgroundColor)
         setBorderColor(borderColor)
-        setLabel(moment(date).format('YYYY'))
+        setLabel(String(year))
       } catch (e) {
         console.log(e)
       }
     })()
-  }, [date])
+  }, [year])
 
   return (
     <Layout>
