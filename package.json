@@ -21,6 +21,7 @@
     "react-dropzone": "^11.4.2",
     "react-hook-form": "^7.19.1",
     "react-icons": "^4.3.1",
+    "react-toastify": "^8.1.0",
     "recoil": "^0.4.1"
   },
   "devDependencies": {
