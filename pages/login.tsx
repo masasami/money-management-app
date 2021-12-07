@@ -4,6 +4,7 @@ import Router from 'next/router'
 import { useState } from 'react'
 import { AiOutlineAccountBook } from 'react-icons/ai'
 import { IoIosClose } from 'react-icons/io'
+import { toast } from 'react-toastify'
 
 import { User } from 'interfaces/user'
 import { apiService } from 'lib/api.service'
@@ -27,7 +28,10 @@ const Login: NextPage = () => {
       })
       console.log(user)
       setUser(user)
-      Router.push('/top')
+
+      toast.success('ログインしました！', {
+        onOpen: () => Router.push('/top'),
+      })
     } catch (e) {
       console.log(e)
       setIsError(true)
