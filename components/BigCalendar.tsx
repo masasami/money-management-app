@@ -76,11 +76,11 @@ const BigCalendar = (props: Props) => {
           {year}/{month}
           {/* 前の月へ */}
           <button className="ml-auto" onClick={movePrev}>
-            ←
+            ←前の月へ
           </button>
           {/* 次の月へ */}
           <button className="ml-2" onClick={moveNext}>
-            →
+            次の月へ→
           </button>
         </h1>
 
