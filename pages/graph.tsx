@@ -98,6 +98,12 @@ const Graph: NextPage = () => {
             width={0}
             height={0}
             options={{
+              // 凡例(label)の非表示
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
               scales: {
                 y: {
                   beginAtZero: true,
