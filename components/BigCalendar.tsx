@@ -29,31 +29,35 @@ const BigCalendar = (props: Props) => {
 
   // 前の月へ移動
   const movePrev = () => {
-    console.log('前の月')
-    let prevYear = year
-    const prevMonth = month - 1
-    if (prevMonth < 1) {
-      prevYear -= 1
+    if (month - 1 < 1) {
+      // 年を1つ戻し、12月にする
+      const prevYear = year - 1
+      const prevMonth = 12
       setYear(prevYear)
-      setMonth(12)
-    } else {
       setMonth(prevMonth)
+      props.movePrev(new Date(prevYear, prevMonth - 1, 1))
+    } else {
+      // 年はそのままで月を1つ戻す
+      const prevMonth = month - 1
+      setMonth(prevMonth)
+      props.movePrev(new Date(year, prevMonth - 1, 1))
     }
-    props.movePrev(new Date(prevYear, prevMonth - 1, 1))
   }
   // 次の月へ移動
   const moveNext = () => {
-    console.log('次の月')
-    let nextYear = year
-    const nextMonth = month + 1
-    if (nextMonth > 12) {
-      nextYear += 1
+    if (month + 1 > 12) {
+      // 年を1つ進め、1月にする
+      const nextYear = year + 1
+      const nextMonth = 1
       setYear(nextYear)
-      setMonth(1)
-    } else {
       setMonth(nextMonth)
+      props.moveNext(new Date(nextYear, nextMonth - 1, 1))
+    } else {
+      // 年はそのままで月を1つ進める
+      const nextMonth = month + 1
+      setMonth(nextMonth)
+      props.moveNext(new Date(year, nextMonth - 1, 1))
     }
-    props.movePrev(new Date(nextYear, nextMonth - 1, 1))
   }
 
   const renderCalendar = useMemo(() => {
