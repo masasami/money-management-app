@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
 import { Bar } from 'react-chartjs-2'
 import Layout from 'layouts/Layout'
@@ -13,6 +13,13 @@ const Graph: NextPage = () => {
   const [borderColor, setBorderColor] = useState<string[]>([])
 
   const [date, setDate] = useState(new Date())
+
+  const movePrev = useCallback(() => {
+    console.log('前の年へ')
+  }, [])
+  const moveNext = useCallback(() => {
+    console.log('次の年へ')
+  }, [])
 
   useEffect(() => {
     ;(async () => {
@@ -65,14 +72,22 @@ const Graph: NextPage = () => {
   return (
     <Layout>
       <div className="w-full h-full flex flex-col p-2">
-        <h1 className="w-full flex items-center md:text-2xl">{label}年の収支</h1>
+        <h1 className="w-full flex items-center md:text-2xl">
+          {label}年の収支
+          <button className="ml-auto" onClick={movePrev}>
+            ←前の年へ
+          </button>
+          <button className="ml-2" onClick={moveNext}>
+            次の年へ→
+          </button>
+        </h1>
+
         <div className="flex-1">
           <Bar
             data={{
               labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
               datasets: [
                 {
-                  label: `${label}年`,
                   data,
                   backgroundColor,
                   borderColor,
