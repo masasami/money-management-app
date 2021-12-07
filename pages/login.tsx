@@ -36,12 +36,12 @@ const Login: NextPage = () => {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center">
-      <div className=" py-8">
+      <div className="py-8">
         <AiOutlineAccountBook fontSize={48} className="text-blue-500" />
       </div>
 
       {isError && (
-        <div className="w-[90vw] max-w-[320px] py-4 px-5 mb-8 text-sm bg-red-200 border border-red-500 rounded flex items-center">
+        <div className="w-[90vw] max-w-[320px] py-4 px-5 mb-8 text-sm bg-red-200 border border-red-500 rounded flex items-center shadow">
           ログインIDまたはパスワードが違います
           <button className="cursor-pointer ml-auto" onClick={() => setIsError(false)}>
             <IoIosClose fontSize={20} className="text-red-500" />
@@ -49,7 +49,7 @@ const Login: NextPage = () => {
         </div>
       )}
 
-      <section className="w-[90vw] max-w-[320px] p-5 bg-gray-50 border border-gray-300 rounded mb-4">
+      <section className="w-[90vw] max-w-[320px] p-5 bg-gray-50 border border-gray-300 rounded mb-4 shadow">
         <h2>ログインID</h2>
         <input
           type="text"
@@ -73,7 +73,7 @@ const Login: NextPage = () => {
         </button>
       </section>
 
-      <div className="w-[90vw] max-w-[320px] p-4 flex justify-center bg-gray-50 border border-gray-300 rounded">
+      <div className="w-[90vw] max-w-[320px] p-4 flex justify-center border border-gray-300 rounded shadow">
         <Link href="signup">
           <a className="underline text-blue-500">ユーザー作成</a>
         </Link>
