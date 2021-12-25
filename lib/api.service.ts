@@ -3,6 +3,9 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL
 axios.interceptors.request.use((config) => {
   config.baseURL = apiUrl
   config.withCredentials = true
+  config.headers = {
+    api_key: process.env.NEXT_PUBLIC_API_KEY || '',
+  }
   return config
 })
 
