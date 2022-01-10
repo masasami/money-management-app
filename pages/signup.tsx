@@ -124,6 +124,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">お名前</h2>
           <input
             type="text"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             placeholder="山本太郎"
             className={inputClassName('name')}
             {...register('name', { required: true })}
@@ -136,6 +139,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">フリガナ</h2>
           <input
             type="text"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             placeholder="ヤマモトタロウ"
             className={inputClassName('kana')}
             {...register('kana', { required: true, pattern: /^[ァ-ヶー]*$/ })}
@@ -149,6 +155,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">ログインID（半角英数字）</h2>
           <input
             type="text"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             className={inputClassName('login_id')}
             {...register('login_id', { required: true, pattern: /^[0-9a-zA-Z]+$/, validate: validateLoginId })}
           />
@@ -162,6 +171,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">パスワード</h2>
           <input
             type="password"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             className={inputClassName('password')}
             {...register('password', { required: true, minLength: 8 })}
           />
@@ -174,6 +186,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">パスワード（再入力）</h2>
           <input
             type="password"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             className={inputClassName('password_re')}
             {...register('password_re', { validate: validatePassword })}
           />
@@ -185,6 +200,9 @@ const Signup: NextPage = () => {
           <h2 className="text-lg">メールアドレス</h2>
           <input
             type="text"
+            autoComplete="off"
+            readOnly
+            onFocus={(e) => e.target.removeAttribute('readonly')}
             placeholder="mail@example.com"
             className={inputClassName('email')}
             {...register('email', { required: true, pattern: /^\S+@\S+$/i, validate: validateEmail })}
