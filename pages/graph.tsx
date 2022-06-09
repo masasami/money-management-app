@@ -1,10 +1,12 @@
 import { useCallback, useEffect, useState } from 'react'
 import type { NextPage } from 'next'
+import { Chart, LinearScale, CategoryScale, BarElement } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 import Layout from 'layouts/Layout'
 import { apiService } from 'lib/api.service'
 import { Account } from 'interfaces/account'
 import moment from 'moment'
+Chart.register(LinearScale, CategoryScale, BarElement)
 
 const Graph: NextPage = () => {
   const [data, setData] = useState<number[]>([])

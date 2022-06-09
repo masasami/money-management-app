@@ -1,6 +1,8 @@
+import { Chart, ArcElement } from 'chart.js'
 import { Doughnut } from 'react-chartjs-2'
 import { Account } from 'interfaces/account'
 import { useEffect, useState } from 'react'
+Chart.register(ArcElement)
 
 type Props = {
   accounts: Account[]
