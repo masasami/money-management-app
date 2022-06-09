@@ -4,8 +4,7 @@ import { AiOutlineMenu } from 'react-icons/ai'
 import { AiOutlineAccountBook } from 'react-icons/ai'
 import { VscAccount } from 'react-icons/vsc'
 import { apiService } from 'lib/api.service'
-import { useSetRecoilState } from 'recoil'
-import { userState } from 'lib/atoms'
+import { useLoginUser } from 'lib/atoms'
 
 type Props = {
   onClick: MouseEventHandler
@@ -13,7 +12,7 @@ type Props = {
 
 const Header = (props: Props) => {
   const [isOpenMenu, setIsOpenMenu] = useState(false)
-  const setUser = useSetRecoilState(userState)
+  const { setUser } = useLoginUser()
   const logout = async () => {
     try {
       await apiService.post('logout')

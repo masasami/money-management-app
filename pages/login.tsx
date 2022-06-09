@@ -8,13 +8,10 @@ import { toast } from 'react-toastify'
 
 import { User } from 'interfaces/user'
 import { apiService } from 'lib/api.service'
-
-// Recoil
-import { useSetRecoilState } from 'recoil'
-import { userState } from 'lib/atoms'
+import { useLoginUser } from 'lib/atoms'
 
 const Login: NextPage = () => {
-  const setUser = useSetRecoilState(userState)
+  const { setUser } = useLoginUser()
 
   const [loginId, setLoginId] = useState('')
   const [password, setPassword] = useState('')

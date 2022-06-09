@@ -1,13 +1,21 @@
-import { atom } from 'recoil'
+import { atom, useRecoilState } from 'recoil'
 import { User } from 'interfaces/user'
 import { Account } from 'interfaces/account'
 
-export const userState = atom<User | null>({
-  key: 'userState',
+const userState = atom<User | null>({
+  key: 'recoil/userState',
   default: null,
 })
+export const useLoginUser = () => {
+  const [user, setUser] = useRecoilState(userState)
+  return { user, setUser }
+}
 
-export const accountsState = atom<Account[]>({
-  key: 'accountsState',
+const accountsState = atom<Account[]>({
+  key: 'recoil/accountsState',
   default: [],
 })
+export const useGlobalAccounts = () => {
+  const [globalAccounts, setGlobalAccounts] = useRecoilState(accountsState)
+  return { globalAccounts, setGlobalAccounts }
+}

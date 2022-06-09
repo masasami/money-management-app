@@ -8,9 +8,7 @@ import moment from 'moment'
 import { Account } from 'interfaces/account'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
-
-import { useRecoilValue, useRecoilState } from 'recoil'
-import { accountsState, userState } from 'lib/atoms'
+import { useLoginUser, useGlobalAccounts } from 'lib/atoms'
 
 type Props = {
   datetimeAccount: string
@@ -19,38 +17,43 @@ type Props = {
 }
 
 const ModalDebitCredit = (props: Props) => {
-  const user = useRecoilValue(userState)
-  if (!user) return null
+  const { user } = useLoginUser()
 
-  const [globalAccounts, setGlobalAccounts] = useRecoilState(accountsState)
+  const { globalAccounts, setGlobalAccounts } = useGlobalAccounts()
   const [accounts, setAccounts] = useState<Account[]>(
     props.accounts.map<Account>((account) => ({ ...account, is_debit: account.debit !== null, is_del: false }))
   )
   const [tags, setTags] = useState<Tag[]>([])
   const [isValid, setIsValid] = useState(true)
 
-  const addAccount = useCallback((isDebit: boolean) => {
-    setAccounts((accounts) => [
-      {
-        id_account: 0,
-        id_user: user.id_user,
-        id_tag: null,
-        content: null,
-        debit: null,
-        credit: null,
-        dt_account: moment(new Date(props.datetimeAccount)).format('YYYY-MM-DD'),
-        dt_create: null,
-        dt_update: null,
-        title: '',
-        color_code: '',
-        is_debit: isDebit,
-        is_del: false,
-      },
-      ...accounts,
-    ])
-    // 追加された入力欄にフォーカスを当てる
-    setTimeout(() => document.getElementById('content0')?.focus(), 0)
-  }, [])
+  const addAccount = useCallback(
+    (isDebit: boolean) => {
+      if (!user) {
+        return
+      }
+      setAccounts((accounts) => [
+        {
+          id_account: 0,
+          id_user: user.id_user,
+          id_tag: null,
+          content: null,
+          debit: null,
+          credit: null,
+          dt_account: moment(new Date(props.datetimeAccount)).format('YYYY-MM-DD'),
+          dt_create: null,
+          dt_update: null,
+          title: '',
+          color_code: '',
+          is_debit: isDebit,
+          is_del: false,
+        },
+        ...accounts,
+      ])
+      // 追加された入力欄にフォーカスを当てる
+      setTimeout(() => document.getElementById('content0')?.focus(), 0)
+    },
+    [user]
+  )
 
   // 勘定一覧を更新しグローバルにセット
   const save = useCallback(async () => {
@@ -112,6 +115,7 @@ const ModalDebitCredit = (props: Props) => {
     }
   }, [accounts])
 
+  if (!user) return null
   return (
     <div className="modal-grayout">
       <div className="modal-screen">

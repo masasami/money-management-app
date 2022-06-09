@@ -9,18 +9,17 @@ import { TiCancel } from 'react-icons/ti'
 import Layout from 'layouts/Layout'
 import { Tag } from 'interfaces/tag'
 import { apiService } from 'lib/api.service'
-
-// Recoil
-import { useRecoilValue } from 'recoil'
-import { userState } from 'lib/atoms'
+import { useLoginUser } from 'lib/atoms'
 
 const TagList: NextPage = () => {
-  const user = useRecoilValue(userState)
-  if (!user) return null
+  const { user } = useLoginUser()
 
   const [tags, setTags] = useState<Tag[]>([])
   // タグ追加
   const addTag = useCallback(() => {
+    if (!user) {
+      return
+    }
     setTags((tags) => [
       {
         id_tag: 0,
@@ -80,6 +79,7 @@ const TagList: NextPage = () => {
     })()
   }, [])
 
+  if (!user) return null
   return (
     <Layout>
       <div className="p-2">

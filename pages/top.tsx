@@ -8,16 +8,12 @@ import DoughnutChart from 'components/DoughnutChart'
 import TopTagList from 'components/TopTagList'
 import { Account } from 'interfaces/account'
 import { apiService } from 'lib/api.service'
-
-// Recoil
-import { useRecoilState, useRecoilValue } from 'recoil'
-import { accountsState, userState } from 'lib/atoms'
+import { useLoginUser, useGlobalAccounts } from 'lib/atoms'
 
 const Top: NextPage = () => {
-  const user = useRecoilValue(userState)
-  if (!user) return null
+  const { user } = useLoginUser()
 
-  const [globalAccounts, setGlobalAccounts] = useRecoilState(accountsState)
+  const { globalAccounts, setGlobalAccounts } = useGlobalAccounts()
   const date = new Date()
   const [year, setYear] = useState(date.getFullYear())
   const [month, setMonth] = useState(date.getMonth() + 1)
@@ -58,6 +54,7 @@ const Top: NextPage = () => {
     setMonth(month)
   }, [])
 
+  if (!user) return null
   return (
     <Layout>
       <div className="w-full h-full flex flex-col p-2">

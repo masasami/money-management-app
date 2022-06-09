@@ -1,15 +1,14 @@
 import { ReactNode, useEffect } from 'react'
 import Router from 'next/router'
 import { apiService } from 'lib/api.service'
-import { useRecoilState } from 'recoil'
-import { userState } from 'lib/atoms'
+import { useLoginUser } from 'lib/atoms'
 
 type Props = {
   route: string
   children: ReactNode
 }
 const Auth = (props: Props) => {
-  const [user, setUser] = useRecoilState(userState)
+  const { user, setUser } = useLoginUser()
 
   useEffect(() => {
     ;(async () => {
