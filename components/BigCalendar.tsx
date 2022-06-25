@@ -84,7 +84,7 @@ const BigCalendar = (props: Props) => {
           </button>
         </h1>
 
-        <div className="w-full flex-1 border flex flex-col">
+        <div className="w-full flex-1 border flex flex-col md:h-[366px] md:flex-auto">
           {/* カレンダーの曜日 */}
           <div className="flex h-8">
             {weeks.map((week, i) => (
@@ -95,7 +95,7 @@ const BigCalendar = (props: Props) => {
           </div>
 
           {/* カレンダーの日付 */}
-          <div className="flex-1">
+          <div className="h-[calc(100%-32px)]">
             {Array.from(Array(6).keys()).map((week, i) => (
               // カレンダーの行
               <div key={i} className="flex h-[calc(1/6*100%)]">
