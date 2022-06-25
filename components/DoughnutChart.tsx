@@ -34,6 +34,8 @@ const DoughnutChart = (props: Props) => {
     setCountList(countList)
   }, [props.accounts])
 
+  if (!titles.length) return <canvas width={150} height={150} className="bg-gray-200 rounded"></canvas>
+
   return (
     <Doughnut
       data={{
