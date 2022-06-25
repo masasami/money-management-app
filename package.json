@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "NODE_OPTIONS=--max-old-space-size=1024 postcss styles/tailwind.css -o styles/tailwind-bundle.css && next build",
-    "build:css": "TAILWIND_MODE=watch postcss styles/tailwind.css -o styles/tailwind-bundle.css -w",
+    "build:css": "TAILWIND_MODE=watch postcss styles/tailwind.css -o styles/tailwind-bundle.css",
+    "build:css:w": "TAILWIND_MODE=watch postcss styles/tailwind.css -o styles/tailwind-bundle.css -w",
     "build:export": "NODE_OPTIONS=--max-old-space-size=1024 postcss styles/tailwind.css -o styles/tailwind-bundle.css && next build && next export",
     "start": "next start",
     "lint": "next lint"
