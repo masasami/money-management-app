@@ -100,7 +100,7 @@ const TagList: NextPage = () => {
                   {/* 編集開始ボタン */}
                   <FaEdit
                     fontSize={32}
-                    className="text-gray-500 ml-auto"
+                    className="text-gray-500 ml-auto cursor-pointer"
                     onClick={() =>
                       setTags((tags) => {
                         tags[i].editing = true
@@ -114,7 +114,7 @@ const TagList: NextPage = () => {
                   {/* 削除ボタン */}
                   <MdDeleteForever
                     fontSize={32}
-                    className="text-red-500"
+                    className="text-red-500 cursor-pointer"
                     onClick={() => {
                       deleteTag(tag.id_tag)
                     }}
@@ -153,7 +153,7 @@ const TagList: NextPage = () => {
                   {/* 編集完了ボタン */}
                   <AiOutlineCheck
                     fontSize={32}
-                    className="text-gray-500 ml-auto"
+                    className="text-gray-500 ml-auto cursor-pointer"
                     onClick={() => {
                       tag.id_tag ? updateTag(tag) : createTag(tag, i)
                     }}
@@ -161,7 +161,7 @@ const TagList: NextPage = () => {
                   {/* キャンセルボタン */}
                   <TiCancel
                     fontSize={32}
-                    className="text-gray-500"
+                    className="text-gray-500 cursor-pointer"
                     onClick={() => {
                       if (!tags[i].id_tag) {
                         setTags((tags) => {
