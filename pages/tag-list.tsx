@@ -60,9 +60,13 @@ const TagList: NextPage = () => {
   }, [])
 
   // タグ削除
-  const deleteTag = useCallback(async (id_tag: number) => {
-    await apiService.delete(`delete_tag/${id_tag}`)
-    setTags((tags) => tags.filter((tag) => tag.id_tag !== id_tag))
+  const deleteTag = useCallback(async (tag: Tag) => {
+    const result = confirm(`タグ「${tag.title}」を削除してもよろしいですか？`)
+    if (!result) {
+      return
+    }
+    await apiService.delete(`delete_tag/${tag.id_tag}`)
+    setTags((prevTags) => prevTags.filter((prevTag) => prevTag.id_tag !== tag.id_tag))
   }, [])
 
   useEffect(() => {
@@ -116,7 +120,7 @@ const TagList: NextPage = () => {
                     fontSize={32}
                     className="text-red-500 cursor-pointer"
                     onClick={() => {
-                      deleteTag(tag.id_tag)
+                      deleteTag(tag)
                     }}
                   />
                 </>
